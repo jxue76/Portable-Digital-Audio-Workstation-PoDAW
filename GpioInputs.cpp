@@ -1,5 +1,5 @@
 #include "GpioInputs.hpp"
-#include <gpiod.hpp>
+#include <gpiod.h>
 #include <stdexcept>
 
 GpioInputs::GpioInputs() {
