@@ -1,3 +1,4 @@
+// Used for testing keyboard inputs to emulate button presses / dial turns for gui testing on desktop if applicable
 #include "KeyboardInputs.hpp"
 #include <linux/input.h>
 #include <fcntl.h>
