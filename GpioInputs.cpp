@@ -33,6 +33,7 @@ GpioInputs::GpioInputs() :
             gpioLines.wait_edge_events(std::chrono::milliseconds(10));
             ::gpiod::edge_event_buffer events(16);
             gpioLines.read_edge_events(events);
+            int count = 0;
             for (const auto& event : events) {
                 if (event.line_offset() == PINDIALCLK || event.line_offset() == PINDIALDT) {
                     std::lock_guard<std::mutex> lock(dialMutex);
@@ -43,6 +44,7 @@ GpioInputs::GpioInputs() :
                     int currState = (static_cast<int>(clk) << 1) | static_cast<int>(dt);
 
                     std::cout << "Dial event: CLK=" << clk << " DT=" << dt << " PrevState=" << prevState << " CurrState=" << currState << std::endl;
+                    std::cout << "Event number: " << count++ << std::endl;
                     dialPosition = transitionTable[prevState][currState];
 
                     dialLastClk = clk;
