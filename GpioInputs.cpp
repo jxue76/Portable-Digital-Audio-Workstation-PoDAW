@@ -57,23 +57,17 @@ Dial GpioInputs::getDialPosition() const {
     int prevState = (static_cast<int>(dialLastClk) << 1) | static_cast<int>(dialLastDt);
     int currState = (static_cast<int>(clk) << 1) | static_cast<int>(dt);
 
-    Dial dial = Dial::NEUTRAL;
-    if (currState != prevState) {
-        // Valid clockwise sequence: 00 -> 01 -> 11 -> 10 -> 00
-        if ((prevState == 0 && currState == 1) ||
-            (prevState == 1 && currState == 3) ||
-            (prevState == 3 && currState == 2) ||
-            (prevState == 2 && currState == 0)) {
-            dial = Dial::UP;
-        }
-        // Valid counterclockwise sequence: 00 -> 10 -> 11 -> 01 -> 00
-        else if ((prevState == 0 && currState == 2) ||
-                 (prevState == 2 && currState == 3) ||
-                 (prevState == 3 && currState == 1) ||
-                 (prevState == 1 && currState == 0)) {
-            dial = Dial::DOWN;
-        }
-    }
+    // Transition table: [prevState][currState] -> Dial result
+    // States: 0=00, 1=01, 2=10, 3=11
+    static const Dial transitionTable[4][4] = {
+        // prev=00    prev=01      prev=10      prev=11
+        {Dial::NEUTRAL, Dial::UP, Dial::DOWN, Dial::NEUTRAL},  // curr=00
+        {Dial::DOWN,    Dial::NEUTRAL, Dial::NEUTRAL, Dial::UP},     // curr=01
+        {Dial::UP,      Dial::NEUTRAL, Dial::NEUTRAL, Dial::DOWN},   // curr=10
+        {Dial::NEUTRAL, Dial::DOWN, Dial::UP, Dial::NEUTRAL}   // curr=11
+    };
+
+    Dial dial = transitionTable[prevState][currState];
 
     dialLastClk = clk;
     dialLastDt = dt;
