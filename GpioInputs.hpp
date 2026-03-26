@@ -28,5 +28,5 @@ public:
     Dial getDialPosition() const override;
 private:
     gpiod::chip chip;
-    gpiod::line_request gpioLines;
-};
+    mutable gpiod::line_request gpioLines;
+};  
