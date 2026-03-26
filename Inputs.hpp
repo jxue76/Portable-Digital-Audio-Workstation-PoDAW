@@ -7,7 +7,6 @@ class Inputs {
 
 protected:
     Inputs();
-    ~Inputs();
 public:
     virtual bool isUpPressed() const;
     virtual bool isDownPressed() const;

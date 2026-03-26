@@ -4,7 +4,6 @@
 class KeyboardInputs : public Inputs {
 public :
     KeyboardInputs();
-    ~KeyboardInputs();
     bool isUpPressed() const override;
     bool isDownPressed() const override;
     bool isLeftPressed() const override;

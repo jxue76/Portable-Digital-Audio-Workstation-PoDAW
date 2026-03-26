@@ -17,7 +17,6 @@
 class GpioInputs : public Inputs {
 public:
     GpioInputs();
-    ~GpioInputs();
     bool isUpPressed() const override;
     bool isDownPressed() const override;
     bool isLeftPressed() const override;
