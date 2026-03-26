@@ -37,6 +37,7 @@ GpioInputs::GpioInputs() :
         while (dialRunning) {
             gpioLines.wait_edge_events(std::chrono::milliseconds(10));
             ::gpiod::edge_event_buffer events(16);
+            if (!dialRunning) break;
             gpioLines.read_edge_events(events);
             int count = 0;
             for (const auto& event : events) {
