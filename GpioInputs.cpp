@@ -2,16 +2,14 @@
 #include <gpiod.hpp>
 #include <stdexcept>
 
-GpioInputs::GpioInputs() : Inputs() {
+GpioInputs::GpioInputs() : Inputs(), chip("/dev/gpiochip4"){
     // Initialize GPIO pins
     try {
-        chip("/dev/gpiochip4");
-        gpioLines = chip.prepare_request()
-            .set_consumer("gpio-inputs");
+        gpioLineRequest = chip.prepare_request().set_consumer("gpio-inputs");
         for (int pin : pins) {
-            gpioLines.add_line_settings(pin, ::gpiod::line_settings().set_direction(::gpiod::line::direction::INPUT).set_active_low(true));
+            gpioLineRequest.add_line_settings(pin, ::gpiod::line_settings().set_direction(::gpiod::line::direction::INPUT).set_active_low(true));
         }
-        gpioLines.do_request();
+        gpioLines = gpioLineRequest.do_request();
     } catch (const std::exception& e) {
         throw std::runtime_error("Failed to initialize GPIO inputs: " + std::string(e.what()));
     }

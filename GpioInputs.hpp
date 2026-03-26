@@ -2,6 +2,8 @@
 
 #include "Inputs.hpp"
 #include <gpiod.hpp>
+#include <optional>
+
 #define PINA 17
 #define PINB 27
 #define PINX 22
@@ -26,6 +28,6 @@ public:
     Dial getDialPosition() const override;
 private:
     gpiod::chip chip;
-    gpiod::line_request gpioLines;
+    std::optional<gpiod::line_request> gpioLines = std::nullopt;
     int pins[9] = {PINUP, PINDOWN, PINLEFT, PINRIGHT, PINA, PINB, PINX, PINDIALCLK, PINDIALDT};
 };
