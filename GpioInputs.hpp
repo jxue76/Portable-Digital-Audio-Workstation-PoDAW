@@ -26,6 +26,6 @@ public:
     Dial getDialPosition() const override;
 private:
     gpiod::chip chip;
-    gpiod::line gpioLines;
+    gpiod::line_request gpioLines;
     int pins[9] = {PINUP, PINDOWN, PINLEFT, PINRIGHT, PINA, PINB, PINX, PINDIALCLK, PINDIALDT};
 };
