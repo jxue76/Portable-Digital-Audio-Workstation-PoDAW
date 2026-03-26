@@ -30,5 +30,4 @@ private:
     mutable gpiod::line_request gpioLines;
     mutable bool dialLastClk = false;
     mutable bool dialLastDt = false;
-    mutable Dial lastValidDirection = Dial::NEUTRAL;
 };  

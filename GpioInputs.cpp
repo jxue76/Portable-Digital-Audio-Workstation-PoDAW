@@ -60,7 +60,7 @@ Dial GpioInputs::getDialPosition() const {
     // Transition table: [prevState][currState] -> Dial result
     // States: 0=00, 1=01, 2=10, 3=11
     static const Dial transitionTable[4][4] = {
-        // prev=00    prev=01      prev=10      prev=11
+        // prev\curr  0        1        2        3
         {Dial::NEUTRAL, Dial::UP, Dial::DOWN, Dial::NEUTRAL},  // curr=00
         {Dial::DOWN,    Dial::NEUTRAL, Dial::NEUTRAL, Dial::UP},     // curr=01
         {Dial::UP,      Dial::NEUTRAL, Dial::NEUTRAL, Dial::DOWN},   // curr=10
@@ -68,14 +68,6 @@ Dial GpioInputs::getDialPosition() const {
     };
 
     Dial dial = transitionTable[prevState][currState];
-
-    // Simple debounce: reject a direction if it immediately reverses from the last valid direction
-    // This filters bounceback but allows smooth continuous rotation
-    if (dial != Dial::NEUTRAL && dial != lastValidDirection) {
-        dial = Dial::NEUTRAL;
-    } else if (dial != Dial::NEUTRAL) {
-        lastValidDirection = dial;
-    }
 
     dialLastClk = clk;
     dialLastDt = dt;
