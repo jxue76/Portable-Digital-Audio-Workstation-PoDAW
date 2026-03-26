@@ -14,8 +14,8 @@ GpioInputs::GpioInputs() :
         .add_line_settings(PINA, ::gpiod::line_settings().set_direction(::gpiod::line::direction::INPUT).set_active_low(true))
         .add_line_settings(PINB, ::gpiod::line_settings().set_direction(::gpiod::line::direction::INPUT).set_active_low(true))
         .add_line_settings(PINX, ::gpiod::line_settings().set_direction(::gpiod::line::direction::INPUT).set_active_low(true))
-        .add_line_settings(PINDIALCLK, ::gpiod::line_settings().set_direction(::gpiod::line::direction::INPUT).set_active_low(true).set_edge_detection(::gpiod::line_settings::edge::BOTH))
-        .add_line_settings(PINDIALDT, ::gpiod::line_settings().set_direction(::gpiod::line::direction::INPUT).set_active_low(true).set_edge_detection(::gpiod::line_settings::edge::BOTH))
+        .add_line_settings(PINDIALCLK, ::gpiod::line_settings().set_direction(::gpiod::line::direction::INPUT).set_active_low(true).set_edge_detection(::gpiod::line::edge::BOTH))
+        .add_line_settings(PINDIALDT, ::gpiod::line_settings().set_direction(::gpiod::line::direction::INPUT).set_active_low(true).set_edge_detection(::gpiod::line::edge::BOTH))
         .do_request()),
     dialThread([&] () {
         // Transition table: [prevState][currState] -> Dial result
