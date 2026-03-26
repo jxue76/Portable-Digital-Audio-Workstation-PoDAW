@@ -5,7 +5,7 @@
 GpioInputs::GpioInputs() : Inputs(), chip("/dev/gpiochip4"){
     // Initialize GPIO pins
     try {
-        ::gpio::request_builder gpioLineRequest = chip.prepare_request().set_consumer("gpio-inputs");
+        ::gpiod::request_builder gpioLineRequest = chip.prepare_request().set_consumer("gpio-inputs");
         for (int pin : pins) {
             gpioLineRequest.add_line_settings(pin, ::gpiod::line_settings().set_direction(::gpiod::line::direction::INPUT).set_active_low(true));
         }
