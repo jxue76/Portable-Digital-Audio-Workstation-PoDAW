@@ -45,8 +45,9 @@ GpioInputs::GpioInputs() :
 
                     std::cout << "Dial event: CLK=" << clk << " DT=" << dt << " PrevState=" << prevState << " CurrState=" << currState << std::endl;
                     std::cout << "Event number: " << count++ << std::endl;
-                    dialPosition = transitionTable[prevState][currState];
-
+                    if (dialPosition == Dial::NEUTRAL) {
+                        dialPosition = transitionTable[prevState][currState];
+                    }
                     dialLastClk = clk;
                     dialLastDt = dt;
                 }
