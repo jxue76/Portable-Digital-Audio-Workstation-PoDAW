@@ -23,7 +23,7 @@ protected:
 
 private:
     static int audio_callback(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
-                                double streamTime, RtAudioStreamStatus status, void *userData) {
+                                double streamTime, RtAudioStreamStatus status, void *userData);
     RtAudio audio; // RtAudio instance for audio output
     RtAudio::StreamParameters outputParams; // Output parameters for RtAudio
     unsigned int bufferFrames = 256; // Number of frames buffer
