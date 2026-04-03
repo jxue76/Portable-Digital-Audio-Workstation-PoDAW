@@ -65,10 +65,10 @@ bool AudioHandler::removeNoteFromInstrument(std::shared_ptr<Instrument> instrume
     return false;
 }
 
-void AudioHandler::printActiveNotes() const {
-    for (const auto &instrument_notes : activeNotes) {
+void AudioHandler::printActiveNotes() {
+    for (auto &instrument_notes : activeNotes) {
         std::cout << "Instrument: " << instrument_notes.first->getName() << " - Active Notes: ";
-        for (const auto &note : instrument_notes.second) {
+        for (auto &note : instrument_notes.second) {
             std::cout << note.getMidiNote() << " (" << note.getAmplitude() << "), ";
         }
         std::cout << std::endl;

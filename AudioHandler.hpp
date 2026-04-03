@@ -16,7 +16,7 @@ public:
     bool addNoteToInstrument(std::shared_ptr<Instrument> instrument, Note note);
     bool removeNoteFromInstrument(std::shared_ptr<Instrument> instrument, Note note);
 
-    void printActiveNotes() const; // For debugging purposes
+    void printActiveNotes(); // For debugging purposes
 
 protected:
     std::map<std::shared_ptr<Instrument>, std::set<Note>> activeNotes; // Map of active instruments to their currently playing MIDI notes
