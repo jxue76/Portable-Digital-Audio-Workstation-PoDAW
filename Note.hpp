@@ -1,3 +1,4 @@
+#pragma once
 #include <stk/Stk.h>
 
 class Note {

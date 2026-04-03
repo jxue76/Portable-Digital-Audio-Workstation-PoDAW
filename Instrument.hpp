@@ -33,10 +33,12 @@ public:
         int modded = (offset % range + range) % range; // % is not a true modulo operator in C++, so we adjust for negative values
         return a + modded;
     }
+
+protected:
+    int midiMin;
+    int midiMax;
 private:
     std::string name;
     std::shared_ptr<stk::Instrmnt> stkInstrument;
     float volume;
-    int midiMin;
-    int midiMax;
 };
