@@ -18,8 +18,10 @@ public:
 
     void printActiveNotes() const; // For debugging purposes
 
-private:
+protected:
     std::map<std::shared_ptr<Instrument>, std::set<Note>> activeNotes; // Map of active instruments to their currently playing MIDI notes
+
+private:
     RtAudio audio; // RtAudio instance for audio output
     RtAudio::StreamParameters outputParams; // Output parameters for RtAudio
     unsigned int bufferFrames = 256; // Number of frames per buffer
