@@ -10,6 +10,8 @@
 #include "Note.hpp"
 
 int main() {
+    stk::Stk::setRawwavePath("../stk/rawwaves/");
+
     AudioHandler audioHandler;
 
     auto piano = std::make_shared<Piano>();

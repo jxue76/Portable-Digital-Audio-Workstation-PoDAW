@@ -1,8 +1,10 @@
+#pragma once
+
 #include <map>
 #include <set>
 
-#include <stk/Stk.h>
-#include <stk/RtAudio.h>
+#include "Stk.h"
+#include "RtAudio.h"
 #include "Instrument.hpp"
 #include "Note.hpp"
 

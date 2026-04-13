@@ -1,5 +1,5 @@
 #pragma once
-#include <stk/Stk.h>
+#include "Stk.h"
 
 class Note {
 public:

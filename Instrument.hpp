@@ -4,7 +4,7 @@
 #include <memory>
 #include <stdexcept>
 #include <cmath>
-#include <stk/Instrmnt.h>
+#include "Instrmnt.h"
 
 
 class Instrument {

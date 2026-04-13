@@ -16,6 +16,12 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(glfw)
 
+# Use X11 on Linux
+find_package(OpenGL REQUIRED)
+find_package(X11 REQUIRED)
+set(GLFW_USE_X11 ON CACHE BOOL "" FORCE)
+
+
 # 2. Define ImGui Sources
 set(IMGUI_SOURCES
     imgui/imgui.cpp
@@ -48,11 +54,12 @@ add_executable(STK_Test stk_test.cpp ${AUDIO_CODE_SOURCES})
 target_include_directories(PoDAW_Test PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends
+    ${X11_INCLUDE_DIR}
 )
 
-target_include_directories(STK_Test PRIVATE stk/include)
+target_include_directories(STK_Test PRIVATE stk/include stk/rawwaves)
 
 # 5. Link Libraries (glfw now comes from the auto-download)
-target_link_libraries(PoDAW_Test PRIVATE glfw opengl32 gdi32)
+target_link_libraries(PoDAW_Test PRIVATE glfw OpenGL::GL ${X11_LIBRARIES})
 
 target_link_libraries(STK_Test PRIVATE stk)

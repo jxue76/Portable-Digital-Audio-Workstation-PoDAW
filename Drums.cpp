@@ -1,5 +1,5 @@
 #include "Drums.hpp"
-#include <stk/Drummer.h>
+#include "Drummer.h"
 
 Drums::Drums() : Instrument("Drums", std::make_shared<stk::Drummer>(), 36, 81, 1.0f) {
 }
