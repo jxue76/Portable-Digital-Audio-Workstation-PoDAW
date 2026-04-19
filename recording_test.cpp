@@ -64,6 +64,8 @@ void test0() {
 
 // Test Recording functionality by simulating a recording session with scheduled MIDI messages, then verifying the recorded events and their timing.
 void test1() {
+    AudioHandler audioHandler;
+
     std::vector<TestMidiHandler::ScheduledMidiMessage> schedule = {
         { std::chrono::milliseconds(100), MidiMessage(Note(60, 1.0f), true) },
         { std::chrono::milliseconds(300), MidiMessage(Note(60, 1.0f), false) },
@@ -76,6 +78,7 @@ void test1() {
     TestMidiHandler testMidi(schedule);
     MidiRecorder recorder;
     std::shared_ptr<Piano> piano = std::make_shared<Piano>();
+    audioHandler.addInstrument(piano);
     recorder.setInstrument(piano);
     recorder.start();
 
@@ -91,7 +94,7 @@ void test1() {
     }
 
     MidiRecording recording = recorder.stop();
-    MidiPlayer player(recording);
+    MidiPlayer player(audioHandler);
     player.play(recording);
     while (player.isPlaying()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
