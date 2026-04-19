@@ -20,7 +20,8 @@ public:
     bool addNoteToInstrument(std::shared_ptr<Instrument> instrument, Note note);
     bool removeNoteFromInstrument(std::shared_ptr<Instrument> instrument, Note note);
 
-    inline ActiveNotesMap readActiveNotes() const { //Pass by value to restrict modification of internal state
+    inline ActiveNotesMap readActiveNotes() const { // Pass by value to restrict modification of internal state
+        std::lock_guard<std::mutex> lock(mtx);
         return activeNotes;
     }
 
@@ -31,5 +32,5 @@ private:
     RtAudio audio; // RtAudio instance for audio output
     RtAudio::StreamParameters outputParams; // Output parameters for RtAudio
     unsigned int bufferFrames = 256; // Number of frames buffer
-    std::mutex mtx; // Mutex for thread-safe access to activeNotes
+    mutable std::mutex mtx; // Mutex for thread-safe access to activeNotes
 };

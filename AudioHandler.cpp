@@ -69,6 +69,7 @@ bool AudioHandler::removeNoteFromInstrument(std::shared_ptr<Instrument> instrume
 }
 
 void AudioHandler::printActiveNotes() const {
+    std::lock_guard<std::mutex> lock(mtx);
     for (const auto &instrument_notes : activeNotes) {
         std::cout << "Instrument: " << instrument_notes.first->getName() << " - Active Notes: ";
         for (const auto &note : instrument_notes.second) {
