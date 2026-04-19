@@ -31,6 +31,8 @@ void test0() {
 
     std::cout << "Starting playback of prerecorded recording..." << std::endl;
     MidiPlayer player(audioHandler);
+
+    std::cout << "Playing recording with " << recording.getEvents().size() << " events." << std::endl;
     player.play(recording);
 
     std::cout << "Waiting for playback to finish..." << std::endl;
