@@ -1,27 +1,5 @@
 #include "MidiHandler.hpp"
 
-MidiHandler::MidiHandler(bool enableDevice) {
-    if (enableDevice) {
-        midiIn = std::make_unique<RtMidiIn>();
-        if (midiIn->getPortCount() > 0) {
-            midiIn->openPort(0); // Open the first available MIDI port
-            midiIn->ignoreTypes(true, true, true); // Ignore sysex, timing, and active sensing messages
-            midiIn->setCallback(&midiCallback, this);
-        }
-    }
-}
-
-MidiHandler::~MidiHandler() {
-    if (midiIn && midiIn->isPortOpen()) {
-        midiIn->closePort();
-    }
-}
-
-void MidiHandler::pushMessage(const MidiMessage& msg) {
-    midiMessages.push_back(msg);
-    printf("Pushed MIDI message: Note %d, %s\n", msg.getNote().getMidiNote(), msg.isOn() ? "ON" : "OFF");
-}
-
 void midiCallback(double deltatime, std::vector<unsigned char>* message, void* userData) {
     MidiHandler* handler = static_cast<MidiHandler*>(userData);
     
@@ -52,6 +30,28 @@ void midiCallback(double deltatime, std::vector<unsigned char>* message, void* u
         }
         // Ignore all other message types
     }
+}
+
+MidiHandler::MidiHandler(bool enableDevice) {
+    if (enableDevice) {
+        midiIn = std::make_unique<RtMidiIn>();
+        if (midiIn->getPortCount() > 0) {
+            midiIn->openPort(0); // Open the first available MIDI port
+            midiIn->ignoreTypes(true, true, true); // Ignore sysex, timing, and active sensing messages
+            midiIn->setCallback(&midiCallback, this);
+        }
+    }
+}
+
+MidiHandler::~MidiHandler() {
+    if (midiIn && midiIn->isPortOpen()) {
+        midiIn->closePort();
+    }
+}
+
+void MidiHandler::pushMessage(const MidiMessage& msg) {
+    midiMessages.push_back(msg);
+    printf("Pushed MIDI message: Note %d, %s\n", msg.getNote().getMidiNote(), msg.isOn() ? "ON" : "OFF");
 }
 
 MidiMessage MidiHandler::popMessage() {
