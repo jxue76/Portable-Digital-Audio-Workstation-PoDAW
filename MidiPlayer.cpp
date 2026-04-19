@@ -9,6 +9,7 @@ void MidiPlayer::play(const MidiRecording& recording, bool loop) {
 
     stop(); // stop existing playback if any
 
+    std::cout << "Starting playback of recording with " << recording.getEvents().size() << " events." << std::endl;
     // Create a copy and sort by timestamp
     MidiRecording sortedRecording = recording;
     std::sort(sortedRecording.getEvents().begin(), sortedRecording.getEvents().end(), 
@@ -24,6 +25,7 @@ void MidiPlayer::play(const MidiRecording& recording, bool loop) {
 }
 
 void MidiPlayer::stop() {
+    if (!playing) return;
     playing = false;
     if (playbackThread.joinable())
         playbackThread.join();
