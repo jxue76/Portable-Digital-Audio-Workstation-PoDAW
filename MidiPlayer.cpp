@@ -19,6 +19,7 @@ void MidiPlayer::play(const MidiRecording& recording, bool loop) {
 
     playing = true;
 
+    std::cout << "Launching playback thread..." << std::endl;
     playbackThread = std::thread([this, sortedRecording, loop]() {
         playbackThreadFunc(sortedRecording, loop);
     });
