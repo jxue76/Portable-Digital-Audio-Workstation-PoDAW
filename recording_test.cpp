@@ -91,7 +91,7 @@ void test1() {
     }
 
     MidiRecording recording = recorder.stop();
-    MidiPlayer player(recorder);
+    MidiPlayer player(recording);
     player.play(recording);
     while (player.isPlaying()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
