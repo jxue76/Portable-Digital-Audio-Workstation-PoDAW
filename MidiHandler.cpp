@@ -19,6 +19,7 @@ MidiHandler::~MidiHandler() {
 
 void MidiHandler::pushMessage(const MidiMessage& msg) {
     midiMessages.push_back(msg);
+    printf("Pushed MIDI message: Note %d, %s\n", msg.getNote().getMidiNote(), msg.isOn() ? "ON" : "OFF");
 }
 
 void MidiHandler::midiCallback(double deltatime, std::vector<unsigned char>* message, void* userData) {
