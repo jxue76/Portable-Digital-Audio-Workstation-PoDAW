@@ -23,7 +23,8 @@ int audio_callback(void *outputBuffer, void *inputBuffer, unsigned int nBufferFr
 }
 
 AudioHandler::AudioHandler() {
-    outputParams.deviceId = audio.getDefaultOutputDevice();
+    std::cout << audio.getDeviceIds() << std::endl;
+    outputParams.deviceId = 0;
     outputParams.nChannels = 1; // Mono output
     audio.openStream(&outputParams, nullptr, RTAUDIO_FLOAT32, 48000, &bufferFrames, &audio_callback, this);
     audio.startStream();
