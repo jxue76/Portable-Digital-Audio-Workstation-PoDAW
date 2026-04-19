@@ -39,6 +39,7 @@ MidiHandler::MidiHandler(bool enableDevice) {
             midiIn->openPort(0); // Open the first available MIDI port
             midiIn->ignoreTypes(true, true, true); // Ignore sysex, timing, and active sensing messages
             midiIn->setCallback(&midiCallback, this);
+            std::cout << "MIDI input device initialized and callback set." << std::endl;
         } else {
             std::cerr << "No MIDI input ports available!" << std::endl;
         }
