@@ -13,6 +13,7 @@
 
 // Test Playback of a prerecorded recording, ensuring it ends with zero active notes
 void test0() {
+    std::cout << "Running test0: Playback of prerecorded recording" << std::endl;
     AudioHandler audioHandler;
     std::shared_ptr<Piano> piano = std::make_shared<Piano>();
     audioHandler.addInstrument(piano);
@@ -28,6 +29,7 @@ void test0() {
     recording.setEvents(testEvents);
     recording.setLength(std::chrono::microseconds(250000));
 
+    std::cout << "Starting playback of prerecorded recording..." << std::endl;
     MidiPlayer player(audioHandler);
     player.play(recording);
 
