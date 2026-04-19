@@ -35,6 +35,7 @@ AudioHandler::~AudioHandler() {
     }
 }
 bool AudioHandler::addInstrument(std::shared_ptr<Instrument> instrument) {
+    std::lock_guard<std::mutex> lock(mtx);
     if (activeNotes.find(instrument) != activeNotes.end()) {
         return false; // Instrument already exists
     }
@@ -42,9 +43,11 @@ bool AudioHandler::addInstrument(std::shared_ptr<Instrument> instrument) {
     return true;
 }
 bool AudioHandler::removeInstrument(std::shared_ptr<Instrument> instrument) {
+    std::lock_guard<std::mutex> lock(mtx);
     return activeNotes.erase(instrument) > 0; // Returns true if an instrument was removed
 }
 bool AudioHandler::addNoteToInstrument(std::shared_ptr<Instrument> instrument, Note note) {
+    std::lock_guard<std::mutex> lock(mtx);
     bool inserted = activeNotes[instrument].insert(note).second;
     if (inserted) {
         instrument->noteOn(note);
@@ -53,6 +56,7 @@ bool AudioHandler::addNoteToInstrument(std::shared_ptr<Instrument> instrument, N
 }
 
 bool AudioHandler::removeNoteFromInstrument(std::shared_ptr<Instrument> instrument, Note note) {
+    std::lock_guard<std::mutex> lock(mtx);
     auto it = activeNotes.find(instrument);
     if (it != activeNotes.end()) {
         size_t erased = it->second.erase(note);

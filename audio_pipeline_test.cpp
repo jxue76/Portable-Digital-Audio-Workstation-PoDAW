@@ -1,3 +1,6 @@
+#include <iostream>
+#include <thread>
+
 #include "MidiHandler.hpp"
 #include "AudioHandler.hpp"
 #include "Piano.hpp"

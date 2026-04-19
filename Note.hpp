@@ -3,6 +3,7 @@
 
 class Note {
 public:
+    Note() = default;
     Note(int midiNote, stk::StkFloat amplitude) : midiNote(midiNote), amplitude(amplitude) {}
     inline int getMidiNote() const {
         return midiNote;

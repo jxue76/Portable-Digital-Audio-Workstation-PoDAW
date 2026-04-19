@@ -1,11 +1,13 @@
 #include "MidiHandler.hpp"
 
-MidiHandler::MidiHandler() {
-    midiIn = std::make_unique<RtMidiIn>();
-    if (midiIn->getPortCount() > 0) {
-        midiIn->openPort(0); // Open the first available MIDI port
-        midiIn->ignoreTypes(true, true, true); // Ignore sysex, timing, and active sensing messages
-        midiIn->setCallback(&MidiHandler::midiCallback, this);
+MidiHandler::MidiHandler(bool enableDevice) {
+    if (enableDevice) {
+        midiIn = std::make_unique<RtMidiIn>();
+        if (midiIn->getPortCount() > 0) {
+            midiIn->openPort(0); // Open the first available MIDI port
+            midiIn->ignoreTypes(true, true, true); // Ignore sysex, timing, and active sensing messages
+            midiIn->setCallback(&MidiHandler::midiCallback, this);
+        }
     }
 }
 
@@ -13,6 +15,10 @@ MidiHandler::~MidiHandler() {
     if (midiIn && midiIn->isPortOpen()) {
         midiIn->closePort();
     }
+}
+
+void MidiHandler::pushMessage(const MidiMessage& msg) {
+    midiMessages.push_back(msg);
 }
 
 void MidiHandler::midiCallback(double deltatime, std::vector<unsigned char>* message, void* userData) {
@@ -38,7 +44,7 @@ void MidiHandler::midiCallback(double deltatime, std::vector<unsigned char>* mes
             MidiMessage midiMsg(note, isNoteOn && data2 > 0);
             
             // Add to queue (thread-safe if needed)
-            handler->midiMessages.push_back(midiMsg);
+            handler->pushMessage(midiMsg);
         }
         // Ignore all other message types
     }
@@ -55,4 +61,33 @@ MidiMessage MidiHandler::popMessage() {
 
 bool MidiHandler::hasMessages() const {
     return !midiMessages.empty();
+}
+
+TestMidiHandler::TestMidiHandler(const std::vector<ScheduledMidiMessage>& schedule)
+    : MidiHandler(false), scheduledMessages(schedule), nextIndex(0) {
+    std::sort(scheduledMessages.begin(), scheduledMessages.end(), [](const ScheduledMidiMessage& a, const ScheduledMidiMessage& b) {
+        return a.timeOffset < b.timeOffset;
+    });
+    start();
+}
+
+void TestMidiHandler::start() {
+    startTime = std::chrono::steady_clock::now();
+    nextIndex = 0;
+}
+
+void TestMidiHandler::update() {
+    if (nextIndex >= scheduledMessages.size()) {
+        return;
+    }
+
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - startTime);
+    while (nextIndex < scheduledMessages.size() && scheduledMessages[nextIndex].timeOffset <= elapsed) {
+        pushMessage(scheduledMessages[nextIndex].message);
+        nextIndex++;
+    }
+}
+
+void TestMidiHandler::reset() {
+    start();
 }

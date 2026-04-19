@@ -2,6 +2,7 @@
 
 #include <map>
 #include <set>
+#include <mutex>
 
 #include "Stk.h"
 #include "RtAudio.h"
@@ -30,4 +31,5 @@ private:
     RtAudio audio; // RtAudio instance for audio output
     RtAudio::StreamParameters outputParams; // Output parameters for RtAudio
     unsigned int bufferFrames = 256; // Number of frames buffer
+    std::mutex mtx; // Mutex for thread-safe access to activeNotes
 };
