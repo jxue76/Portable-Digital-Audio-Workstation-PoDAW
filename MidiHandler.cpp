@@ -48,7 +48,7 @@ MidiHandler::MidiHandler(bool enableDevice) {
 }
 
 MidiHandler::~MidiHandler() {
-    if (midiIn && midiIn.isPortOpen()) {
+    if (midiIn.isPortOpen()) {
         midiIn.closePort();
     }
 }
