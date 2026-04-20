@@ -3,12 +3,23 @@
 #include "imgui_impl_opengl3.h"
 #include <GLFW/glfw3.h>
 #include <cstdio>
+#include <iostream>
+#include <thread>
 
 #include "Sequencer.hpp"
 #include "SettingsUI.hpp"
 #include "SequencerUI.hpp"
 #include "IndividualTrack.hpp"
 #include "KeyboardInputs.hpp"
+#include "AudioHandler.hpp"
+#include "MidiHandler.hpp"
+#include "MidiPlayer.hpp"
+#include "MidiRecording.hpp"
+#include "MidiRecorder.hpp"
+#include "Piano.hpp"
+#include "Bass.hpp"
+#include "Drums.hpp"
+#include "Guitar.hpp"
 
 enum AppState { SEQUENCER, SETTINGS, INDIVIDUAL };
 
@@ -17,6 +28,10 @@ static void glfw_error_callback(int error, const char* description) {
 }
 
 int main(int, char**) {
+    MidiRecording recording = MidiRecording();
+    std::shared_ptr<Piano> mainPiano = std::make_shared<Piano>();
+    //recording.setInstrument(mainPiano);
+
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit()) return 1;
 
@@ -74,7 +89,7 @@ int main(int, char**) {
         } else if (currentState == SEQUENCER) {
             sequencerUI.render(sequencer, inputs, io.DeltaTime);
         } else if (currentState == INDIVIDUAL) {
-            individualUI.render(sequencer, inputs, io.DeltaTime, true);
+            individualUI.render(sequencer, inputs, io.DeltaTime, true, recording);
         }
 
         ImGui::End();

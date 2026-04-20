@@ -3,10 +3,12 @@
 
 #include "Inputs.hpp"
 #include "Sequencer.hpp"
+#include "MidiRecording.hpp"
 
 class IndividualTrackUI {
     public:
-        void render(Sequencer& seq, Inputs& inputs, float dt, bool isPlayback);
+        void render(Sequencer& seq, Inputs& inputs, float dt, bool isPlayback, MidiRecording& recordedNotes);
+        void startRecording();
         //void renderMIDI();
         //void update_info();
     private:
@@ -41,12 +43,20 @@ class IndividualTrackUI {
         bool playing = false;
 
         int note_selection_vert = 4;
+        int time_sig_num = 5;
+        float ppn = 280.0f/26.0f; // Pixels per note vertial
+        float ppb = 0.0f; // Pixels per beat horizontal
 
         float cursor_increment;
+        ImU32 noteCol = IM_COL32(255,255,255,255);
+
+        float x_end;
+        float y;
 
         KeyRepeat upKey, downKey, leftKey, rightKey, fastKey;
         bool fastMovement = false;
-        void handleInputs(Sequencer& seq, Inputs& inputs, float dt);
+        void handleInputs(Sequencer& seq, Inputs& inputs, float dt, MidiRecording& recordedNotes);
+        void drawNotes(MidiRecording& recordedNotes, Sequencer& seq);
 };
 
 #endif
