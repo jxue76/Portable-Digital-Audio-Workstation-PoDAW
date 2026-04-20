@@ -20,6 +20,7 @@
 #include "Bass.hpp"
 #include "Drums.hpp"
 #include "Guitar.hpp"
+#include "Inputs.hpp"
 
 enum AppState { SEQUENCER, SETTINGS, INDIVIDUAL };
 
@@ -28,9 +29,20 @@ static void glfw_error_callback(int error, const char* description) {
 }
 
 int main(int, char**) {
-    MidiRecording recording = MidiRecording();
-    std::shared_ptr<Piano> mainPiano = std::make_shared<Piano>();
-    //recording.setInstrument(mainPiano);
+    // Set MIDI 
+    stk::Stk::setRawwavePath("../stk/rawwaves/");
+
+    AudioHandler audioHandler;
+    MidiRecorder recorder;
+    MidiHandler midiHandler;
+    MidiPlayer midiPlayer(audioHandler);
+
+    MidiRecording track1Recording, track2Recording, track3Recording, track4Recording;
+    std::vector<MidiRecording> recordings = {track1Recording, track2Recording, track3Recording, track4Recording};
+
+    std::shared_ptr<Piano> piano = std::make_shared<Piano>();
+    audioHandler.addInstrument(piano);
+    recorder.setInstrument(piano);
 
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit()) return 1;
@@ -67,12 +79,44 @@ int main(int, char**) {
 
     AppState currentState = SETTINGS;
 
+    double cursorPosition = 0.0;
+
+    bool isPlayback = true; // If playback option is selected = true, if recording = false
+    bool isMoving = false; // GUI is moving if recording or playback
+
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
+        
+        // isPlayback is true if playback option is chosen, false is recording option is chosen
+        if (sequencer.currentMode == 0 && !isPlayback) {isPlayback=true; individualUI.playback = true;}
+        else if (sequencer.currentMode == 1 && isPlayback) {isPlayback=false; individualUI.playback = false;}
 
-        if (ImGui::IsKeyPressed(ImGuiKey_Escape)) {
-            currentState = (currentState == INDIVIDUAL) ? SETTINGS : INDIVIDUAL;
+        // Menu button is X
+        if ((ImGui::IsKeyPressed(ImGuiKey_Escape) || inputs.isXPressed()) && !isMoving) {
+            if (currentState == SETTINGS) {
+                currentState = INDIVIDUAL;
+                individualUI.drawNotes(recordings[sequencer.currentTrack-1], sequencer);
+            } else {
+                currentState = SETTINGS;
+            }
         }
+        // Playback/Record button is A for individual track viewer,
+        // for individual track viewer B will toggle between fast movement
+        if (currentState == INDIVIDUAL){
+            double timestamp_position = (cursorPosition-40.0)/individualUI.returnPPB()*60/sequencer.tempo;
+            if (isPlayback) {
+                if (inputs.isAPressed()) {
+                    isMoving = playbackToggle(timestamp_position, individualUI, recordings,
+                                    sequencer.currentTrack);
+                }
+            } else {
+                if (inputs.isAPressed()) {
+                    recordToggle(recorder, recordings[sequencer.currentTrack-1],
+                                timestamp_position, individualUI, sequencer, isMoving);
+                }
+            }
+        }  
+
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -89,7 +133,14 @@ int main(int, char**) {
         } else if (currentState == SEQUENCER) {
             sequencerUI.render(sequencer, inputs, io.DeltaTime);
         } else if (currentState == INDIVIDUAL) {
-            individualUI.render(sequencer, inputs, io.DeltaTime, true, recording);
+            if (isMoving) {
+                // individualUI.pushCursorPlayback(sequencer, ADD dt HERE);
+                // I'm not entirely sure how playback works, where the current timestamp is stored, but if possible
+                // I'd like to pass in the current dt each frame to have the cursor move consistently whether it is recording or playback
+            }
+            individualUI.render(sequencer, inputs, io.DeltaTime,
+                                            recordings[sequencer.currentTrack-1],
+                                            cursorPosition);
         }
 
         ImGui::End();
@@ -111,4 +162,35 @@ int main(int, char**) {
     glfwDestroyWindow(window);
     glfwTerminate();
     return 0;
+}
+
+// Return boolean to use for isMoving
+bool playbackToggle(double timestamp_position, IndividualTrackUI& individualUI,
+                    std::vector<MidiRecording>& recordings, int selectedTrack) {
+    // timestamp_position is in seconds, I don't know if you needed input timestamp to be in milli or microseconds so we can do the conversion here
+    // microsecond conversion for example
+    double timestamp_playback = timestamp_position * 1000000.0;
+    // Add compatibility to check if app is already playing back, if so then playback can be stopped and cursor position reset
+    // For now just make the app playback every single track, we'll see if single track playback is complex later
+
+    //individualUI.isMoving = false; // if not playing
+    //individualUI.isMoving = true; // if playing
+
+    return false; // If not playing
+    return true; // If playing
+}
+
+void recordToggle(MidiRecorder& recorder, MidiRecording& recording,
+            double timestamp_pos, IndividualTrackUI& individualUI, Sequencer& seq, bool& isMoving) {
+    if (!isMoving) {
+        if (timestamp_pos <= 0) {
+            // Add recording from timestamp 0 here
+        } else {
+            // Add recording from cursorPosition here 
+        }
+        isMoving = true;
+    } else {
+        // Stop recording here and return recording to 'recording' variable
+        isMoving = false;
+    }
 }

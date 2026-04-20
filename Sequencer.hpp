@@ -67,6 +67,7 @@ public:
 
     Track tracks[NUM_TRACKS];
     int currentTrack = 1;
+    int currentMode = 0;
 
     static const char* noteToName(uint8_t note);
     

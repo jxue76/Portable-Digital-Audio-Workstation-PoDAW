@@ -7,15 +7,23 @@
 
 class IndividualTrackUI {
     public:
-        void render(Sequencer& seq, Inputs& inputs, float dt, bool isPlayback, MidiRecording& recordedNotes);
+        void render(Sequencer& seq, Inputs& inputs, float dt,
+                    MidiRecording& recordedNotes,
+                    double& cursorPosition);
         void startRecording();
+        float returnPPB() {return ppb;}
+        void drawNotes(MidiRecording& recordedNotes, Sequencer& seq);
+        void pushCursorPlayback(Sequencer& seq, double dt);
+
+        bool playback = true;
+
         //void renderMIDI();
         //void update_info();
     private:
         struct KeyRepeat {
             bool  wasDown = false;
             float timer   = 0.0f;
-        
+            
             bool check(bool isDown, float deltaTime) {
                 if (!isDown) {
                     wasDown = false;
@@ -35,15 +43,15 @@ class IndividualTrackUI {
                 return false;
             }
         };
-
+        
         float cursor_pos = 40;
-
+        
         int current_segment = 0;
-        int max_segments = 10;
-        bool playing = false;
+        int max_segments = 4;
 
-        int note_selection_vert = 4;
-        int time_sig_num = 5;
+        bool isMoving = false;
+
+        int note_selection_vert = 5;
         float ppn = 280.0f/26.0f; // Pixels per note vertial
         float ppb = 0.0f; // Pixels per beat horizontal
 
@@ -56,7 +64,6 @@ class IndividualTrackUI {
         KeyRepeat upKey, downKey, leftKey, rightKey, fastKey;
         bool fastMovement = false;
         void handleInputs(Sequencer& seq, Inputs& inputs, float dt, MidiRecording& recordedNotes);
-        void drawNotes(MidiRecording& recordedNotes, Sequencer& seq);
 };
 
 #endif

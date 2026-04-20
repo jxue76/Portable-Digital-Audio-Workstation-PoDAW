@@ -24,6 +24,7 @@ void SettingsUI::render(Sequencer& seq) {
 }
 
 void SettingsUI::renderPlayback(Sequencer& seq) {
+    seq.currentMode = 0;
     ImGui::SetCursorPos(ImVec2(20, 20));
     ImGui::Text("Tempo:");
     ImGui::SameLine();
@@ -64,6 +65,7 @@ void SettingsUI::renderPlayback(Sequencer& seq) {
 }
 
 void SettingsUI::renderRecording(Sequencer& seq) {
+    seq.currentMode = 1;
     ImGui::SetCursorPos(ImVec2(20, 20));
     ImGui::TextWrapped("Incoming keyboard notes are converted into MIDI note events and recorded onto the armed track at the current playhead step.");
 
