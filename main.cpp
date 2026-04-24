@@ -113,6 +113,8 @@ int main(int, char**) {
     if (!glfwInit()) return 1;
 
     const char* glsl_version = "#version 130";
+
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
@@ -252,6 +254,41 @@ int main(int, char**) {
                 MidiMessage msg = midiHandler.popMessage();
                 std::cout << "Received MIDI message: Note " << msg.getNote().getMidiNote() 
                         << (msg.isOn() ? " ON" : " OFF") << std::endl;
+                if (msg.isOn()) {
+                    switch (sequencer.currentTrack) {
+                        case 1:
+                            audioHandler1.addNoteToInstrument(piano, msg.getNote());
+                            break;
+                        case 2:
+                            audioHandler2.addNoteToInstrument(guitar, msg.getNote());
+                            break;
+                        case 3:
+                            audioHandler3.addNoteToInstrument(drums, msg.getNote());
+                            break;
+                        case 4:
+                            audioHandler4.addNoteToInstrument(bass, msg.getNote());
+                            break;
+                        default:
+                            audioHandler1.addNoteToInstrument(piano, msg.getNote());
+                    }
+                } else {
+                    switch (sequencer.currentTrack) {
+                        case 1:
+                            audioHandler1.removeNoteFromInstrument(piano, msg.getNote());
+                            break;
+                        case 2:
+                            audioHandler2.removeNoteFromInstrument(guitar, msg.getNote());
+                            break;
+                        case 3:
+                            audioHandler3.removeNoteFromInstrument(drums, msg.getNote());
+                            break;
+                        case 4:
+                            audioHandler4.removeNoteFromInstrument(bass, msg.getNote());
+                            break;
+                        default:
+                            audioHandler1.removeNoteFromInstrument(piano, msg.getNote());
+                    }
+                }
                 recorder.process(msg);
                 //input_lock = true;
                 //input_delay = std::chrono::high_resolution_clock::now();
