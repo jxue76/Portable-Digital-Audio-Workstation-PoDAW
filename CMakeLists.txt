@@ -17,6 +17,8 @@ FetchContent_MakeAvailable(SDL3)
 # Use X11 on Linux
 #find_package(OpenGL REQUIRED COMPONENTS EGL GLX GLES2)
 #find_package(X11 REQUIRED)
+find_package(SDL3 REQUIRED)
+find_package(OpenGL REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GPIOD REQUIRED libgpiodcxx)
 #set(GLFW_USE_X11 ON CACHE BOOL "" FORCE)
@@ -27,10 +29,8 @@ set(IMGUI_SOURCES
     imgui/imgui_draw.cpp
     imgui/imgui_tables.cpp
     imgui/imgui_widgets.cpp
-    imgui/backends/imgui_impl_sdl2.h
-    imgui/backends/imgui_impl_sdl2.cpp
-    imgui/backends/imgui_impl_sdlrenderer2.h
-    imgui/backends/imgui_impl_sdlrenderer2.cpp
+    imgui/backends/imgui_impl_sdl3.cpp
+    imgui/backends/imgui_impl_opengl3.cpp
 )
 
 # Added stk subdirectory (already configured with a CMakeLists.txt) and audio surce code
@@ -76,7 +76,6 @@ target_include_directories(PoDAW_Test PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends
-    ${X11_INCLUDE_DIR}
     ${STK_INCLUDE_DIRS}
 )
 # 5. Link Libraries (glfw now comes from the auto-download)
@@ -86,4 +85,4 @@ target_link_libraries(PoDAW_Test PRIVATE ${GPIOD_LIBRARIES})
 
 #target_link_libraries(PoDAW_Test PRIVATE glfw OpenGL::GL OpenGL::EGL OpenGL::GLX OpenGL::GLES2 ${X11_LIBRARIES})
 target_link_libraries(PoDAW_Test PRIVATE stk)
-target_link_libraries(PoDAW_Test PRIVATE SDL3)
+target_link_libraries(PoDAW_Test PRIVATE SDL3::SDL3 OpenGL::GL)
