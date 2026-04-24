@@ -141,7 +141,7 @@ int main(int, char**) {
     SettingsUI    settingsUI;
     SequencerUI   sequencerUI;
     IndividualTrackUI individualUI;
-    GpioInputs inputs();
+    GpioInputs inputs;
     //KeyboardInputs inputs(window);
 
     AppState currentState = SETTINGS;
