@@ -23,7 +23,7 @@
 #include "Drums.hpp"
 #include "Guitar.hpp"
 #include "Inputs.hpp"
-#include "Midi_recording_Utils.hpp"
+#include "Midi_Recording_Utils.hpp"
 
 enum AppState { SEQUENCER, SETTINGS, INDIVIDUAL };
 
