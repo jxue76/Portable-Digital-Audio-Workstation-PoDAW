@@ -10,12 +10,12 @@ class IndividualTrackUI {
         void render(Sequencer& seq, Inputs& inputs, float dt,
                     MidiRecording& recordedNotes,
                     double& cursorPosition);
-        void startRecording();
         float returnPPB() {return ppb;}
         void drawNotes(MidiRecording& recordedNotes, Sequencer& seq);
-        void pushCursorPlayback(Sequencer& seq, double dt);
-
+        void pushCursorPlayback(Sequencer& seq, double dt, MidiRecording& recordedNotes);
+        
         bool playback = true;
+        bool isMoving = false;
 
         //void renderMIDI();
         //void update_info();
@@ -49,7 +49,6 @@ class IndividualTrackUI {
         int current_segment = 0;
         int max_segments = 4;
 
-        bool isMoving = false;
 
         int note_selection_vert = 5;
         float ppn = 280.0f/26.0f; // Pixels per note vertial

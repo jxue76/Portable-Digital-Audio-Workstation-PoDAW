@@ -34,7 +34,6 @@ void IndividualTrackUI::render(Sequencer& seq, Inputs& inputs, float dt, MidiRec
     }
 
 
-    printf("E\n");
     if (!isMoving){
         if (fastMovement) dl->AddRectFilled(ImVec2(0,0),ImVec2(40,280),IM_COL32(180,130,70,255));
         else if (!fastMovement) dl->AddRectFilled(ImVec2(0,0), ImVec2(40, 280), IM_COL32(70, 130, 180, 255));}
@@ -230,18 +229,20 @@ void IndividualTrackUI::drawNotes(MidiRecording& recordedNotes, Sequencer& seq) 
     }
 }
 
-void IndividualTrackUI::pushCursorPlayback(Sequencer& seq, double dt) {
+void IndividualTrackUI::pushCursorPlayback(Sequencer& seq, double dt, MidiRecording& recordedNotes) {
     double cursor_push = static_cast<double>(seq.tempo)/60.0*ppb;
     cursor_pos += cursor_push*dt;
     if (cursor_pos >= 480.0 && current_segment < max_segments-1) {
         cursor_pos = 40.0;
         current_segment += 1;
+        drawNotes(recordedNotes, seq);
     } else if (cursor_pos >= 480.0 && current_segment >= max_segments - 1) {
         if (playback) isMoving = false;
         if (!playback) {
             max_segments += 1;
             current_segment += 1;
             cursor_pos = 40.0;
+            drawNotes(recordedNotes, seq);
         }
     }
 }
