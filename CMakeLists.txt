@@ -60,14 +60,9 @@ set(PODAW_SOURCES
     SettingsUI.cpp
     SequencerUI.cpp
     IndividualTrack.cpp
+    GpioInputs.cpp
+    KeyboardInputs.cpp
 )
-
-# Platform-specific input backend
-if(PODAW_USE_GPIO)
-    list(APPEND PODAW_SOURCES GpioInputs.cpp)
-else()
-    list(APPEND PODAW_SOURCES KeyboardInputs.cpp)
-endif()
 
 # 3. Create Executables
 add_executable(PoDAW_Test main.cpp ${IMGUI_SOURCES} ${PODAW_SOURCES} ${MIDI_CODE_SOURCES})
