@@ -116,8 +116,7 @@ int main(int, char**) {
 
     //GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", nullptr, nullptr);
     GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", glfwGetPrimaryMonitor(), nullptr);
-    if (!window) return 1;
-    std::cout << "Window create" << std::endl;
+    //if (!window) return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
@@ -157,8 +156,6 @@ int main(int, char**) {
     auto input_delay = std::chrono::high_resolution_clock::now();
     auto current_input_delay = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - input_delay);
     bool input_lock = false;
-
-    std::cout << "start of render" <<std::endl;
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
@@ -320,8 +317,6 @@ int main(int, char**) {
                                             cursorPosition);
         }
 
-        std::cout << "End of render" << std::endl;
-
         ImGui::End();
 
         ImGui::Render();
@@ -334,8 +329,6 @@ int main(int, char**) {
 
         glfwSwapBuffers(window);
     }
-
-    std::cout << "THe end " << std::endl;
 
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
