@@ -18,7 +18,7 @@ FetchContent_MakeAvailable(glfw)
 find_package(OpenGL REQUIRED)
 find_package(X11 REQUIRED)
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GPIOD REQUIRED libgpiod)
+pkg_check_modules(GPIOD REQUIRED libgpiodcxx)
 set(GLFW_USE_X11 ON CACHE BOOL "" FORCE)
 
 set(IMGUI_SOURCES
