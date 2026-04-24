@@ -50,10 +50,6 @@ static void glfw_error_callback(int error, const char* description) {
     return true; // If playing
 }*/
 
-void recordingThreadFunction() {
-
-}
-
 int main(int, char**) {
     // Set MIDI 
     stk::Stk::setRawwavePath("../stk/rawwaves/");
@@ -120,6 +116,7 @@ int main(int, char**) {
 
     //GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", nullptr, nullptr);
     GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", glfwGetPrimaryMonitor(), nullptr);
+    std::cout << ":AAAAAAAAAAAAAAAAAAAA" << std::endl;
     if (!window) return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
