@@ -186,7 +186,7 @@ int main(int, char**) {
         // Input lock code
         if (input_lock) {
             current_input_delay = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - input_delay);
-            if (current_input_delay.count() > 0.5) {
+            if (current_input_delay.count() > 0.1) {
                 input_lock = false;
             }
         }
