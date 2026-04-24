@@ -5,14 +5,14 @@ set(CMAKE_CXX_STANDARD 17)
 
 include(FetchContent)
 FetchContent_Declare(
-    SDL2
-    GIT_REPOSITORY "htps//github.com/libsdl-org/SDL.git"
-    GIT_TAG release-2.0.22
+  SDL2
+  GIT_REPOSITORY "https://github.com/libsdl-org/SDL.git"
+  GIT_TAG release-2.0.22
 )
 #set(GLFW_BUILD_DOCS     OFF CACHE BOOL "" FORCE)
 #set(GLFW_BUILD_TESTS    OFF CACHE BOOL "" FORCE)
 #set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(SDL2)
+#FetchContent_MakeAvailable(SDL2)
 
 # Use X11 on Linux
 find_package(OpenGL REQUIRED COMPONENTS EGL GLX GLES2)
@@ -64,7 +64,7 @@ set(PODAW_SOURCES
     SequencerUI.cpp
     IndividualTrack.cpp
     GpioInputs.cpp
-    KeyboardInputs.cpp
+    #KeyboardInputs.cpp
 )
 
 # 3. Create Executables
@@ -99,8 +99,9 @@ target_include_directories(PoDAW_Test PRIVATE ${GPIOD_INCLUDE_DIRS})
 target_link_libraries(PoDAW_Test PRIVATE ${GPIOD_LIBRARIES})
 
 
-target_link_libraries(PoDAW_Test PRIVATE glfw OpenGL::GL OpenGL::EGL OpenGL::GLX OpenGL::GLES2 ${X11_LIBRARIES})
+#target_link_libraries(PoDAW_Test PRIVATE glfw OpenGL::GL OpenGL::EGL OpenGL::GLX OpenGL::GLES2 ${X11_LIBRARIES})
 target_link_libraries(PoDAW_Test PRIVATE stk)
+target_link_libraries(PoDAW_Test PRIVATE sdl)
 
 #target_link_libraries(STK_Test PRIVATE stk)
 
