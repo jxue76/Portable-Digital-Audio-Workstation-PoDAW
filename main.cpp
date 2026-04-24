@@ -117,7 +117,6 @@ int main(int, char**) {
     //GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", nullptr, nullptr);
     GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", glfwGetPrimaryMonitor(), nullptr);
     if (!window) return 1;
-    std::cout << "Window create" << std::endl;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
