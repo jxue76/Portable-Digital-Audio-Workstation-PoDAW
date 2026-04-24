@@ -117,6 +117,7 @@ int main(int, char**) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
     GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", nullptr, nullptr);
+    //GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", glfwGetPrimaryMonitor(), nullptr);
     if (!window) return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
@@ -252,8 +253,8 @@ int main(int, char**) {
                 std::cout << "Received MIDI message: Note " << msg.getNote().getMidiNote() 
                         << (msg.isOn() ? " ON" : " OFF") << std::endl;
                 recorder.process(msg);
-                input_lock = true;
-                input_delay = std::chrono::high_resolution_clock::now();
+                //input_lock = true;
+                //input_delay = std::chrono::high_resolution_clock::now();
             }
             //std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
