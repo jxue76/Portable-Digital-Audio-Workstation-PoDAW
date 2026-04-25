@@ -220,7 +220,9 @@ int main(int, char**) {
             }
         }
 
-        if (inputs.getDialPosition() == Dial::UP && !input_lock) {
+        auto dialInput = inputs.getDialPosition();
+
+        if (dialInput == Dial::UP && !input_lock) {
             currentVol = piano->getVolume();
             if (currentVol < 1.0f) {
                 piano->setVolume((piano->getVolume()) + 0.02f);
@@ -232,7 +234,7 @@ int main(int, char**) {
             std::cout << "up " << piano->getVolume()  << std::endl;
             //input_delay = std::chrono::high_resolution_clock::now();
             //input_lock = true;
-        } else if (inputs.getDialPosition() == Dial::DOWN && !input_lock) {
+        } else if (dialInput == Dial::DOWN && !input_lock) {
             currentVol = piano->getVolume();
             std::cout << currentVol << ": Current volume" << std::endl;
             if (currentVol > 0.0f) {
