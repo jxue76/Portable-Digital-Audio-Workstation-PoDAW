@@ -219,16 +219,16 @@ int main(int, char**) {
             }
         }
 
-        if (inputs.getDialPosition() == Dial::UP && !input_delay) {
+        if (inputs.getDialPosition() == Dial::UP && !input_lock) {
             if (piano->getVolume() < 1.0f) {
                 piano->setVolume(piano->getVolume() + 0.02f);
-                guitar->setVolume(guitar->setVolume() + 0.02f);
-                drums->setVolume(drums->setVolume() + 0.02f);
+                guitar->setVolume(guitar->getVolume() + 0.02f);
+                drums->setVolume(drums->getVolume() + 0.02f);
                 bass->setVolume(bass->getVolume() + 0.02f);
             }
             input_delay = std::chrono::high_resolution_clock::now();
             input_lock = true;
-        } else if (inputs.getDialPosition() == Dial::DOWN && !input_delay) {
+        } else if (inputs.getDialPosition() == Dial::DOWN && !input_loc) {
             if (piano->getVolume() > 0.0f) {
                 piano->setVolume(piano->getVolume() - 0.02f);
                 guitar->setVolume(guitar->setVolume() - 0.02f);
