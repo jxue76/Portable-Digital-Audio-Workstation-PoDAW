@@ -174,7 +174,7 @@ int main(int, char**) {
 
         ImGui::SetNextWindowPos(ImVec2(30, 0));
         ImGui::SetNextWindowSize(ImVec2(720, 480));
-        ImGui::SetCursorPos(ImVec2(30,0));
+        //ImGui::SetCursorPos(ImVec2(30,0));
         ImGui::Begin("MainApp", nullptr,
                      ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings);
 
