@@ -219,24 +219,22 @@ int main(int, char**) {
             }
         }
 
-        if (inputs.getDialPosition() == Dial::UP && !input_lock) {
+        if (inputs.getDialPosition() == Dial::UP) {
             if (piano->getVolume() < 1.0f) {
                 piano->setVolume(piano->getVolume() + 0.02f);
                 guitar->setVolume(guitar->getVolume() + 0.02f);
                 drums->setVolume(drums->getVolume() + 0.02f);
                 bass->setVolume(bass->getVolume() + 0.02f);
             }
-            input_delay = std::chrono::high_resolution_clock::now();
-            input_lock = true;
-        } else if (inputs.getDialPosition() == Dial::DOWN && !input_lock) {
+            std::cout << piano->getVolume() << std::endl;
+        } else if (inputs.getDialPosition() == Dial::DOWN) {
             if (piano->getVolume() > 0.0f) {
                 piano->setVolume(piano->getVolume() - 0.02f);
                 guitar->setVolume(guitar->getVolume() - 0.02f);
                 drums->setVolume(drums->getVolume() - 0.02f);
                 bass->setVolume(bass->getVolume() - 0.02f);
             }
-            input_delay = std::chrono::high_resolution_clock::now();
-            input_lock = true;
+            std::cout << piano->getVolume() << std::endl;
         }
 
         // Menu button is X

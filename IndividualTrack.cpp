@@ -59,7 +59,7 @@ void IndividualTrackUI::render(Sequencer& seq, Inputs& inputs, float dt, MidiRec
     // Selection for notes from y = 40 -> 280, x width of 40
     float ppo = 360.0f/7.0f; // 7 octaves, two octaves displayed at a time
     dl->AddRectFilled(ImVec2(p.x+0,p.y+420-(note_selection_vert*ppo/2)),
-                        ImVec2(p.x+40, p.y+420-(note_selection_vert*ppo/2)-(ppo*2)),
+                        ImVec2(p.x+60, p.y+420-(note_selection_vert*ppo/2)-(ppo*2)),
                         IM_COL32(0,0,0,50));
 
     // Cursor
@@ -222,7 +222,7 @@ void IndividualTrackUI::drawNotes(MidiRecording& recordedNotes, Sequencer& seq) 
         }
         if (note >= noteMin && note <= noteMax && !noteEvent.isOn() && x[note-noteMin] != -1.0f) {
             // Draw note
-            y = ((320-ppn) - (note-noteMin)*ppn);
+            y = ((420-ppn) - (note-noteMin)*ppn);
             x_end = 60.0f+segmentOffset+ noteEvent.getTimestamp().count()/t*ttb*ppb;
             drawnNotes.push_back({ImVec2(p.x+x[note-noteMin],p.y+y), ImVec2(p.x+x_end,p.y+y+ppn)});
             //dl->AddRectFilled(ImVec2(x[note-noteMin],y), ImVec2(x_end,y+ppn),noteCol);
