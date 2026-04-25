@@ -120,6 +120,7 @@ int main(int, char**) {
     if (!window) return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
+    glfwSetWindowSize(window, 960, 640);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -161,6 +162,7 @@ int main(int, char**) {
     TestMidiHandler midiHandler;
 
     std::cout << "start of render" <<std::endl;
+    bool input = false;
 
     while (true) {
         glfwPollEvents();
@@ -173,7 +175,7 @@ int main(int, char**) {
         ImGui::Begin("MainApp", nullptr,
                      ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
                      ImGuiWindowFlags_NoResize     | ImGuiWindowFlags_NoSavedSettings);
-        
+
         // isPlayback is true if playback option is chosen, false is recording option is chosen
         if (sequencer.currentMode == 0 && !isPlayback) {isPlayback=true; individualUI.playback = true;}
         else if (sequencer.currentMode == 1 && isPlayback) {isPlayback=false; individualUI.playback = false;}
@@ -183,11 +185,43 @@ int main(int, char**) {
             current_input_delay = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - input_delay);
             if (current_input_delay.count() > 0.01) {
                 input_lock = false;
+                input = false;
+            }
+        }
+
+        if (currentState == SETTINGS && !input_lock) {
+            if (inputs.IsAPressed()) {
+                io.AddKeyEvent(ImGuiKey_Enter, true);
+                io.AddKeyEvent(ImGuiKey_Enter, false);
+                input = true;
+            } else if (inputs.IsUpPressed()) {
+                io.AddKeyEvent(ImGuiKey_UpArrow, true);
+                io.AddKeyEvent(ImGuiKey_UpArrow, false);
+                input = true;
+            } else if (inputs.IsDownPressed()) {
+                io.AddKeyEvent(ImGuiKey_DownArrow, true);
+                io.AddKeyEvent(ImGuiKey_DownArrow, false);
+                input = true;
+            } else if (inputs.IsLeftPressed()) {
+                io.AddKeyEvent(ImGuiKey_LeftArrow, true);
+                io.AddKeyEvent(ImGuiKey_LeftArrow, false);
+                input = true;
+            } else if (inputs.IsRightPressed()) {
+                io.AddKeyEvent(ImGuiKey_RightArrow, true);
+                io.AddKeyEvent(ImGuiKey_RightArrow, false);
+                input = true;
+            }
+            if (input) {
+                input_delay = std::chrono::high_resolution_clock::now();
+                input_lock = true;
             }
         }
 
         // Menu button is X
-        if ((ImGui::IsKeyPressed(ImGuiKey_Escape) || inputs.isXPressed()) && !isMoving && !input_lock) {
+        if (ImGui::IsKeyPressed(ImGuiKey_Escape)) {
+            break;
+        }
+        if (inputs.isXPressed() && !isMoving && !input_lock) {
             if (currentState == SETTINGS) {
                 currentState = INDIVIDUAL;
                 individualUI.drawNotes(recordings[sequencer.currentTrack-1], sequencer);
@@ -327,17 +361,12 @@ int main(int, char**) {
         ImGui::End();
 
         ImGui::Render();
-        std::cout << "Render" << std::endl;
         int dw, dh;
         glfwGetFramebufferSize(window, &dw, &dh);
-        std::cout << "Frame Buffer" << std::endl;
         glViewport(0, 0, dw, dh);
-        std::cout << "Viewport" << std::endl;
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        std::cout << "Clear color" << std::endl;
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        std::cout << "Get Draw data" << std::endl;
 
         glfwSwapBuffers(window);
     }
