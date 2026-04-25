@@ -52,7 +52,7 @@ class IndividualTrackUI {
 
 
         int note_selection_vert = 5;
-        float ppn = 280.0f/26.0f; // Pixels per note vertial
+        float ppn = 420.0f/26.0f; // Pixels per note vertial
         float ppb = 0.0f; // Pixels per beat horizontal
 
         float cursor_increment;

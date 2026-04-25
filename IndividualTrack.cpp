@@ -13,11 +13,11 @@ static constexpr float BAR_H     = 40.0f;
 static constexpr float WIN_W     = 480.0f;
 
 void IndividualTrackUI::render(Sequencer& seq, Inputs& inputs, float dt, MidiRecording& recordedNotes, double& cursorPosition) {
-    cursor_increment = 440.0f/(static_cast<float>(seq.timeSigNum)*4.0f);
+    cursor_increment = 660.0f/(static_cast<float>(seq.timeSigNum)*4.0f);
     //ppn = 280.0f/26.0f; //pixels per note
     ppb = cursor_increment;
     handleInputs(seq, inputs, dt, recordedNotes);
-    cursorPosition = cursor_pos+current_segment*440.0;
+    cursorPosition = cursor_pos+current_segment*660.0;
 
     ImDrawList* dl = ImGui::GetWindowDrawList();
     ImVec2 p       = ImGui::GetCursorScreenPos();
@@ -35,46 +35,46 @@ void IndividualTrackUI::render(Sequencer& seq, Inputs& inputs, float dt, MidiRec
 
 
     if (!isMoving){
-        if (fastMovement) dl->AddRectFilled(ImVec2(0,0),ImVec2(40,280),IM_COL32(180,130,70,255));
-        else if (!fastMovement) dl->AddRectFilled(ImVec2(0,0), ImVec2(40, 280), IM_COL32(70, 130, 180, 255));}
+        if (fastMovement) dl->AddRectFilled(ImVec2(p.x+0,p.y+0),ImVec2(p.x+60,p.y+420),IM_COL32(180,130,70,255));
+        else if (!fastMovement) dl->AddRectFilled(ImVec2(p.x+0,p.y+0), ImVec2(p.x+60, p.x+420), IM_COL32(70, 130, 180, 255));}
     else if (isMoving) {
-        dl->AddRectFilled(ImVec2(0,0),ImVec2(40,280),IM_COL32(100,100,100,255));}
+        dl->AddRectFilled(ImVec2(p.x+0,0),ImVec2(p.x+60,p.y+420),IM_COL32(100,100,100,255));}
     char track_num[32];
     snprintf(track_num, sizeof(track_num), "%d", seq.currentTrack);
-    dl->AddText(ImVec2(10, 20), IM_COL32(255,255,255,255), track_num);
+    dl->AddText(ImVec2(p.x+10, p.y+20), IM_COL32(255,255,255,255), track_num);
     // Next is track instrument
     if (recordedNotes.getInstrument()) {
         snprintf(track_num, sizeof(track_num), "%s", (recordedNotes.getInstrument().get()->getName()).c_str());
     }
     else snprintf(track_num, sizeof(track_num), "%s", "NUL");
-    dl->AddText(ImVec2(10,30), IM_COL32(255,255,255,255), track_num);
+    dl->AddText(ImVec2(p.x+10,p.y+40), IM_COL32(255,255,255,255), track_num);
     if (playback) {
         snprintf(track_num, sizeof(track_num), "PLAY");
-        dl->AddText(ImVec2(10,40), IM_COL32(255,255,255,255), track_num);
+        dl->AddText(ImVec2(p.x+10,p.y+60), IM_COL32(255,255,255,255), track_num);
     } else {
         snprintf(track_num, sizeof(track_num), "REC");
-        dl->AddText(ImVec2(10,40), IM_COL32(255,255,255,255), track_num);
+        dl->AddText(ImVec2(p.x+10,p.y+60), IM_COL32(255,255,255,255), track_num);
     }
 
     // Selection for notes from y = 40 -> 280, x width of 40
-    float ppo = 220.0f/7.0f; // 7 octaves, two octaves displayed at a time
-    dl->AddRectFilled(ImVec2(0,280-(note_selection_vert*ppo/2)),
-                        ImVec2(40, 280-(note_selection_vert*ppo/2)-(ppo*2)),
+    float ppo = 360.0f/7.0f; // 7 octaves, two octaves displayed at a time
+    dl->AddRectFilled(ImVec2(p.x+0,p.y+420-(note_selection_vert*ppo/2)),
+                        ImVec2(p.x+40, p.y+420-(note_selection_vert*ppo/2)-(ppo*2)),
                         IM_COL32(0,0,0,50));
 
     // Cursor
-    dl->AddRectFilled(ImVec2(cursor_pos, 0),
-                            ImVec2(cursor_pos+10, 470),
+    dl->AddRectFilled(ImVec2(p.x+cursor_pos, p.y+0),
+                            ImVec2(p.x+cursor_pos+20, p.y+480),
                             IM_COL32(90,80,30,200));
 
     float segmentLength = 480/max_segments;
-    if (!isMoving) dl->AddRectFilled(ImVec2(0,280), ImVec2(720,480), IM_COL32(60,60,60,255));
+    if (!isMoving) dl->AddRectFilled(ImVec2(p.x+0,p.y+420), ImVec2(p.x+720,p.y+480), IM_COL32(60,60,60,255));
     if (isMoving) {
-        if (playback) dl->AddRectFilled(ImVec2(0,280), ImVec2(480,320), IM_COL32(30,30,180,255));
-        if (!playback) dl->AddRectFilled(ImVec2(0,280), ImVec2(480,320), IM_COL32(180,30,30,255));
+        if (playback) dl->AddRectFilled(ImVec2(p.x+0,p.y+420), ImVec2(p.x+720,p.y+480), IM_COL32(30,30,180,255));
+        if (!playback) dl->AddRectFilled(ImVec2(p.x+0,p.y+420), ImVec2(p.x+720,p.y+480), IM_COL32(180,30,30,255));
     }
-    dl->AddRectFilled(ImVec2(current_segment*segmentLength,280),
-                        ImVec2(current_segment*segmentLength+segmentLength, 320),
+    dl->AddRectFilled(ImVec2(p.x+current_segment*segmentLength,p.y+420),
+                        ImVec2(p.x+current_segment*segmentLength+segmentLength, p.y+480),
                         IM_COL32(255,255,255,50));
 }
 
@@ -99,24 +99,24 @@ void IndividualTrackUI::handleInputs(Sequencer& seq, Inputs& inputs, float dt, M
             if (leftKey.check(inputs.isLeftPressed(), dt)) {
                 cursor_pos -= cursor_increment;
                 drawNotes(recordedNotes, seq);
-                if (cursor_pos <= 40) {
+                if (cursor_pos <= 60) {
                     if (current_segment <= 0) {
-                        cursor_pos = 40;
+                        cursor_pos = 60;
                     } else {
                         current_segment -= 1;
-                        cursor_pos = 480;
+                        cursor_pos = 720;
                     }
                 }
             }
             if (rightKey.check(inputs.isRightPressed(), dt)) {
                 cursor_pos += cursor_increment;
                 drawNotes(recordedNotes, seq);
-                if (cursor_pos >= 480) {
+                if (cursor_pos >= 720) {
                     if (current_segment >= max_segments-1) {
-                        cursor_pos = 480;
+                        cursor_pos = 720;
                     } else {
                         current_segment += 1;
-                        cursor_pos = 40;
+                        cursor_pos = 60;
                     }
                 }
             }
@@ -157,7 +157,7 @@ void IndividualTrackUI::handleInputs(Sequencer& seq, Inputs& inputs, float dt, M
 
 void IndividualTrackUI::drawNotes(MidiRecording& recordedNotes, Sequencer& seq) {
     //ImDrawList* dl = ImGui::GetWindowDrawList();
-    //ImVec2 p       = ImGui::GetCursorScreenPos();
+    ImVec2 p       = ImGui::GetCursorScreenPos();
     //ImVec2 wp      = ImGui::GetWindowPos();
 
     drawnNotes.clear();
@@ -173,7 +173,7 @@ void IndividualTrackUI::drawNotes(MidiRecording& recordedNotes, Sequencer& seq) 
 
     std::vector<double> x(26, -1.0f);
 
-    float segmentOffset = -440.0f*current_segment;
+    float segmentOffset = -660.0f*current_segment;
     // Vertoffset is based on 0 as lowest note, with each difference being a distance of
     // ppn*7
     float verticalOffset = note_selection_vert*ppn*(-7.0f);
@@ -218,13 +218,13 @@ void IndividualTrackUI::drawNotes(MidiRecording& recordedNotes, Sequencer& seq) 
         int note = noteEvent.getNote().getMidiNote();
         if (note >= noteMin && note <= noteMax && noteEvent.isOn()) {
             // Save start x position
-            x[note-noteMin] = 40.0f+segmentOffset+ noteEvent.getTimestamp().count()/t*ttb*ppb;
+            x[note-noteMin] = 60.0f+segmentOffset+ noteEvent.getTimestamp().count()/t*ttb*ppb;
         }
         if (note >= noteMin && note <= noteMax && !noteEvent.isOn() && x[note-noteMin] != -1.0f) {
             // Draw note
-            y = ((280-ppn) - (note-noteMin)*ppn);
-            x_end = 40.0f+segmentOffset+ noteEvent.getTimestamp().count()/t*ttb*ppb;
-            drawnNotes.push_back({ImVec2(x[note-noteMin],y), ImVec2(x_end,y+ppn)});
+            y = ((320-ppn) - (note-noteMin)*ppn);
+            x_end = 60.0f+segmentOffset+ noteEvent.getTimestamp().count()/t*ttb*ppb;
+            drawnNotes.push_back({ImVec2(p.x+x[note-noteMin],p.y+y), ImVec2(p.x+x_end,p.y+y+ppn)});
             //dl->AddRectFilled(ImVec2(x[note-noteMin],y), ImVec2(x_end,y+ppn),noteCol);
             x[note-noteMin] = -1.0f;
         }
@@ -234,16 +234,16 @@ void IndividualTrackUI::drawNotes(MidiRecording& recordedNotes, Sequencer& seq) 
 void IndividualTrackUI::pushCursorPlayback(Sequencer& seq, double dt, MidiRecording& recordedNotes) {
     double cursor_push = static_cast<double>(seq.tempo)/60.0*ppb;
     cursor_pos += cursor_push*dt;
-    if (cursor_pos >= 480.0 && current_segment < max_segments-1) {
-        cursor_pos = 40.0;
+    if (cursor_pos >= 720.0 && current_segment < max_segments-1) {
+        cursor_pos = 60.0;
         current_segment += 1;
         drawNotes(recordedNotes, seq);
-    } else if (cursor_pos >= 480.0 && current_segment >= max_segments - 1) {
+    } else if (cursor_pos >= 720.0 && current_segment >= max_segments - 1) {
         if (playback) isMoving = false;
         if (!playback) {
             max_segments += 1;
             current_segment += 1;
-            cursor_pos = 40.0;
+            cursor_pos = 60.0;
             drawNotes(recordedNotes, seq);
         }
     }
