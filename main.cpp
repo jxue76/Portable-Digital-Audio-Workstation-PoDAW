@@ -63,7 +63,7 @@ int main(int, char**) {
     AudioHandler audioHandler1, audioHandler2, audioHandler3, audioHandler4;
     audioHandler1.addInstrument(piano);
     MidiRecorder recorder;
-    MidiHandler midiHandler;
+
     MidiPlayer midiPlayerPiano(audioHandler1);
     audioHandler2.addInstrument(guitar);
     MidiPlayer midiPlayerGuitar(audioHandler2);
@@ -157,6 +157,8 @@ int main(int, char**) {
     auto input_delay = std::chrono::high_resolution_clock::now();
     auto current_input_delay = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - input_delay);
     bool input_lock = false;
+
+    MidiHandler midiHandler;
 
     std::cout << "start of render" <<std::endl;
 
