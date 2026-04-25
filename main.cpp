@@ -60,17 +60,18 @@ int main(int, char**) {
     std::shared_ptr<Drums> drums = std::make_shared<Drums>("DRM");
     std::shared_ptr<Bass> bass = std::make_shared<Bass>("BSS");
 
-    AudioHandler audioHandler1, audioHandler2, audioHandler3, audioHandler4;
-    audioHandler1.addInstrument(piano);
     MidiRecorder recorder;
 
-    MidiPlayer midiPlayerPiano(audioHandler1);
-    audioHandler2.addInstrument(guitar);
-    MidiPlayer midiPlayerGuitar(audioHandler2);
-    audioHandler3.addInstrument(drums);
-    MidiPlayer midiPlayerDrums(audioHandler3);
-    audioHandler4.addInstrument(bass);
-    MidiPlayer midiPlayerBass(audioHandler4);
+    AudioHandler audioHandler;
+    audioHandler.addInstrument(piano);
+    audioHandler.addInstrument(guitar);
+    audioHandler.addInstrument(drums);
+    audioHandler.addInstrument(bass);
+
+    MidiPlayer midiPlayerPiano(audioHandler);
+    MidiPlayer midiPlayerGuitar(audioHandler);
+    MidiPlayer midiPlayerDrums(audioHandler);
+    MidiPlayer midiPlayerBass(audioHandler);
 
     //MidiRecording track1Recording, track2Recording, track3Recording, track4Recording;
     std::vector<MidiRecording> recordings(4);
@@ -257,36 +258,36 @@ int main(int, char**) {
                 if (msg.isOn()) {
                     switch (sequencer.currentTrack) {
                         case 1:
-                            audioHandler1.addNoteToInstrument(piano, msg.getNote());
+                            audioHandler.addNoteToInstrument(piano, msg.getNote());
                             break;
                         case 2:
-                            audioHandler2.addNoteToInstrument(guitar, msg.getNote());
+                            audioHandler.addNoteToInstrument(guitar, msg.getNote());
                             break;
                         case 3:
-                            audioHandler3.addNoteToInstrument(drums, msg.getNote());
+                            audioHandler.addNoteToInstrument(drums, msg.getNote());
                             break;
                         case 4:
-                            audioHandler4.addNoteToInstrument(bass, msg.getNote());
+                            audioHandler.addNoteToInstrument(bass, msg.getNote());
                             break;
                         default:
-                            audioHandler1.addNoteToInstrument(piano, msg.getNote());
+                            audioHandler.addNoteToInstrument(piano, msg.getNote());
                     }
                 } else {
                     switch (sequencer.currentTrack) {
                         case 1:
-                            audioHandler1.removeNoteFromInstrument(piano, msg.getNote());
+                            audioHandler.removeNoteFromInstrument(piano, msg.getNote());
                             break;
                         case 2:
-                            audioHandler2.removeNoteFromInstrument(guitar, msg.getNote());
+                            audioHandler.removeNoteFromInstrument(guitar, msg.getNote());
                             break;
                         case 3:
-                            audioHandler3.removeNoteFromInstrument(drums, msg.getNote());
+                            audioHandler.removeNoteFromInstrument(drums, msg.getNote());
                             break;
                         case 4:
-                            audioHandler4.removeNoteFromInstrument(bass, msg.getNote());
+                            audioHandler.removeNoteFromInstrument(bass, msg.getNote());
                             break;
                         default:
-                            audioHandler1.removeNoteFromInstrument(piano, msg.getNote());
+                            audioHandler.removeNoteFromInstrument(piano, msg.getNote());
                     }
                 }
                 recorder.process(msg);
