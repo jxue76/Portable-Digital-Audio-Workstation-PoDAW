@@ -162,7 +162,7 @@ int main(int, char**) {
 
     std::cout << "start of render" <<std::endl;
 
-    while (!glfwWindowShouldClose(window)) {
+    while (true) {
         glfwPollEvents();
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -173,6 +173,8 @@ int main(int, char**) {
         ImGui::Begin("MainApp", nullptr,
                      ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
                      ImGuiWindowFlags_NoResize     | ImGuiWindowFlags_NoSavedSettings);
+
+        std::cout << "Begin rendering" << std::endl;
         
         // isPlayback is true if playback option is chosen, false is recording option is chosen
         if (sequencer.currentMode == 0 && !isPlayback) {isPlayback=true; individualUI.playback = true;}
