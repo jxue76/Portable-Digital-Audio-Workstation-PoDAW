@@ -68,7 +68,7 @@ void IndividualTrackUI::render(Sequencer& seq, Inputs& inputs, float dt, MidiRec
                             IM_COL32(90,80,30,200));
 
     float segmentLength = 480/max_segments;
-    if (!isMoving) dl->AddRectFilled(ImVec2(0,280), ImVec2(480,320), IM_COL32(60,60,60,255));
+    if (!isMoving) dl->AddRectFilled(ImVec2(0,280), ImVec2(720,480), IM_COL32(60,60,60,255));
     if (isMoving) {
         if (playback) dl->AddRectFilled(ImVec2(0,280), ImVec2(480,320), IM_COL32(30,30,180,255));
         if (!playback) dl->AddRectFilled(ImVec2(0,280), ImVec2(480,320), IM_COL32(180,30,30,255));
