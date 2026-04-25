@@ -78,7 +78,8 @@ int main(int, char**) {
     recordings[1].setInstrument(guitar);
     recordings[2].setInstrument(drums);
     recordings[3].setInstrument(bass);
-    /*recorder.setInstrument(guitar);
+
+    recorder.setInstrument(guitar);
 
     std::vector<TestMidiHandler::ScheduledMidiMessage> schedule = {
         { std::chrono::milliseconds(1000), MidiMessage(Note(60, 1.0f), true) },
@@ -102,7 +103,7 @@ int main(int, char**) {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-    recordings[1] = recorder.stop();*/
+    recordings[1] = recorder.stop();
 
 
     glfwSetErrorCallback(glfw_error_callback);
@@ -156,7 +157,7 @@ int main(int, char**) {
     auto current_input_delay = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - input_delay);
     bool input_lock = false;
 
-    MidiHandler midiHandler;
+    TestMidiHandler midiHandler;
 
     std::cout << "start of render" <<std::endl;
 

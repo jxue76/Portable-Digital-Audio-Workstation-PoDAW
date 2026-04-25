@@ -3,16 +3,9 @@ project(PoDAW)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include(FetchContent)
-FetchContent_Declare(
-    glfw
-    GIT_REPOSITORY https://github.com/glfw/glfw.git
-    GIT_TAG 3.3.8
-)
 set(GLFW_BUILD_DOCS     OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS    OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(glfw)
 
 # Use X11 on Linux
 find_package(OpenGL REQUIRED COMPONENTS EGL GLX GLES2)
@@ -36,6 +29,7 @@ set(IMGUI_SOURCES
 
 # Added stk subdirectory (already configured with a CMakeLists.txt) and audio surce code
 add_subdirectory(stk)
+add_subdirectory(glfw)
 
 set(AUDIO_CODE_SOURCES
     Instrument.cpp
@@ -69,6 +63,22 @@ set(PODAW_SOURCES
     KeyboardInputs.cpp
 )
 
+# Detect Raspberry Pi Zero 2 W and define IMGUI_IMPL_OPENGL_ES2
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm" OR CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+    # Check for Raspberry Pi specific indicators
+    if(EXISTS "/proc/device-tree/model")
+        file(READ "/proc/device-tree/model" RASPBERRY_PI_MODEL)
+        if(RASPBERRY_PI_MODEL MATCHES "Raspberry Pi Zero 2")
+            add_definitions(-DIMGUI_IMPL_OPENGL_ES2)
+            message(STATUS "Detected Raspberry Pi Zero 2 W - enabling OpenGL ES 2.0 support")
+        endif()
+    elseif(CMAKE_CROSSCOMPILING)
+        # When cross-compiling for ARM, assume Raspberry Pi Zero 2 W if not specified otherwise
+        add_definitions(-DIMGUI_IMPL_OPENGL_ES2)
+        message(STATUS "Cross-compiling for ARM - enabling OpenGL ES 2.0 support for Raspberry Pi Zero 2 W")
+    endif()
+endif()
+
 # 3. Create Executables
 add_executable(PoDAW_Test main.cpp ${IMGUI_SOURCES} ${PODAW_SOURCES} ${MIDI_CODE_SOURCES})
 
@@ -84,6 +94,7 @@ target_include_directories(PoDAW_Test PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends
+    ${CMAKE_CURRENT_SOURCE_DIR}/glfw/include/GLFW
     ${X11_INCLUDE_DIR}
     ${STK_INCLUDE_DIRS}
     #${AUDIO_CODE_SOURCES}
