@@ -174,7 +174,7 @@ int main(int, char**) {
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(ImVec2(480, 320));
         ImGui::Begin("MainApp", nullptr,
-                     ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_AlwaysAutoResize);
+                     ImGuiWindowFlags_AlwaysAutoResize);
 
         // isPlayback is true if playback option is chosen, false is recording option is chosen
         if (sequencer.currentMode == 0 && !isPlayback) {isPlayback=true; individualUI.playback = true;}
