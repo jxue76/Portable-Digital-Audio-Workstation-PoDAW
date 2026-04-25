@@ -360,6 +360,7 @@ int main(int, char**) {
 
         ImGui::End();
 
+        style.ScaleAllSizes(1.2f);
         
         ImGui::Render();
         int dw, dh;
@@ -368,7 +369,6 @@ int main(int, char**) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        style.ScaleAllSizes(1.3f);
 
         //glfwSetWindowSize(window, 900, 400);
 
