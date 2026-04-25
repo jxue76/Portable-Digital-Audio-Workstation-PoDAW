@@ -115,12 +115,9 @@ int main(int, char**) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
 
-    glfwGetPrimaryMonitor()
-
     //GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", nullptr, nullptr);
-    float main_scale = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor()); // Valid on GLFW 3.3+ only
-    GLFWwindow* window = glfwCreateWindow((int)(720 * main_scale), (int)(480 * main_scale), "PoDAW", glfwGetPrimaryMonitor(), nullptr);
-    //GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", glfwGetPrimaryMonitor(), nullptr);
+    //float main_scale = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor()); // Valid on GLFW 3.3+ only
+    GLFWwindow* window = glfwCreateWindow(720, 480, "PoDAW", glfwGetPrimaryMonitor(), nullptr);
     if (!window) return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
