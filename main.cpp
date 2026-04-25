@@ -116,7 +116,7 @@ int main(int, char**) {
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
 
     //GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", nullptr, nullptr);
-    GLFWwindow* window = glfwCreateWindow(480, 320, "PoDAW Interface", glfwGetPrimaryMonitor(), nullptr);
+    GLFWwindow* window = glfwCreateWindow(960, 420, "PoDAW Interface", glfwGetPrimaryMonitor(), nullptr);
     if (!window) return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
@@ -365,7 +365,7 @@ int main(int, char**) {
         ImGui::Render();
         int dw, dh;
         glfwGetFramebufferSize(window, &dw, &dh);
-        glViewport(0, 0, dw*1.4, dh*1.4);
+        glViewport(0, 0, dw, dh);
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
