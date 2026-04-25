@@ -120,7 +120,7 @@ int main(int, char**) {
     if (!window) return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
-    glfwSetWindowAttrib(window, GLFW_RESIZABLE, true)
+    glfwSetWindowAttrib(window, GLFW_RESIZABLE, true);
     glfwMaximizeWindow(window);
 
     IMGUI_CHECKVERSION();
