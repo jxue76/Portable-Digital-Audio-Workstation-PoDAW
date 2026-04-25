@@ -128,8 +128,6 @@ int main(int, char**) {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
     //io.FontGlobalScale = 1;
-    io.DisplaySize.x = 100;
-    io.DisplaySize.y = 100;
 
     ImGui::StyleColorsDark();
     ImGuiStyle& style = ImGui::GetStyle();
@@ -369,6 +367,8 @@ int main(int, char**) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        ImGui::SetNextWindowSize(ImVec2(100,100));
 
         //glfwSetWindowSize(window, 900, 400);
 
