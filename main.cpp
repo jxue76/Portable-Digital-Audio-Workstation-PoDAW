@@ -219,7 +219,8 @@ int main(int, char**) {
             }
         }
 
-        std::cout << inputs.getDialPosition() == Dial::UP << std::endl;
+        bool vog = inputs.getDialPosition() == Dial::UP;
+        std::cout << vog << std::endl;
 
         if (inputs.getDialPosition() == Dial::UP && !input_lock) {
             if (piano->getVolume() < 1.0f) {
@@ -227,8 +228,8 @@ int main(int, char**) {
                 guitar->setVolume(guitar->getVolume() + 0.02f);
                 drums->setVolume(drums->getVolume() + 0.02f);
                 bass->setVolume(bass->getVolume() + 0.02f);
-                std::cout << piano->getVolume()+0.02f << std::endl;
             }
+            std::cout << piano->getVolume() << std::endl;
             input_delay = std::chrono::high_resolution_clock::now();
             input_lock = true;
         } else if (inputs.getDialPosition() == Dial::DOWN && !input_lock) {
