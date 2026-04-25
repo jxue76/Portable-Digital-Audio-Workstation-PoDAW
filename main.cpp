@@ -161,7 +161,7 @@ int main(int, char**) {
 
     TestMidiHandler midiHandler;
 
-    std::cout << "start of render" <<std::endl;
+    //std::cout << "start of render" <<std::endl;
     bool input = false;
 
     while (true) {
@@ -356,14 +356,14 @@ int main(int, char**) {
                                             cursorPosition);
         }
 
-        std::cout << "End of render" << std::endl;
+        //std::cout << "End of render" << std::endl;
 
         ImGui::End();
 
         ImGui::Render();
         int dw, dh;
         glfwGetFramebufferSize(window, &dw, &dh);
-        glViewport(0, 0, dw, dh);
+        glViewport(40, 40, 900, 400);
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
