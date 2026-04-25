@@ -229,22 +229,17 @@ int main(int, char**) {
                 guitar->setVolume((guitar->getVolume()) + 0.02f);
                 drums->setVolume((drums->getVolume()) + 0.02f);
                 bass->setVolume((bass->getVolume()) + 0.02f);
-                std::cout << "Set volume" << std::endl;
             }
-            std::cout << "up " << piano->getVolume()  << std::endl;
             //input_delay = std::chrono::high_resolution_clock::now();
             //input_lock = true;
         } else if (dialInput == Dial::DOWN && !input_lock) {
             currentVol = piano->getVolume();
-            std::cout << currentVol << ": Current volume" << std::endl;
             if (currentVol > 0.0f) {
                 piano->setVolume((piano->getVolume()) - 0.02f);
                 guitar->setVolume((guitar->getVolume()) - 0.02f);
                 drums->setVolume((drums->getVolume()) - 0.02f);
                 bass->setVolume((bass->getVolume()) - 0.02f);
-                std::cout << piano->getVolume() - 0.02f << std::endl;
             }
-            std::cout << "Down " << piano->getVolume() << std::endl;
             //input_delay = std::chrono::high_resolution_clock::now();
             //input_lock = true;
         }
