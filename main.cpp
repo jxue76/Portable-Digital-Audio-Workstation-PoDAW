@@ -363,13 +363,12 @@ int main(int, char**) {
         ImGui::Render();
         int dw, dh;
         glfwGetFramebufferSize(window, &dw, &dh);
-        glViewport(0, 0, dw, dh);
+        glViewport(0, 0, dw*2, dh*2);
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        ImGui::SetNextWindowSize(ImVec2(900, 400));
 
-        glfwSetWindowSize(window, 900, 400);
+        //glfwSetWindowSize(window, 900, 400);
 
         glfwSwapBuffers(window);
     }
