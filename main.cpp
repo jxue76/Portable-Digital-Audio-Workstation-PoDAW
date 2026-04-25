@@ -234,7 +234,7 @@ int main(int, char**) {
                 drums->setVolume(drums->getVolume() - 0.02f);
                 bass->setVolume(bass->getVolume() - 0.02f);
             }
-            std::cout << piano->getVolume()-0.02f << std::endl;
+            std::cout << piano->getVolume() << std::endl;
         }
 
         // Menu button is X
