@@ -52,7 +52,7 @@ static void glfw_error_callback(int error, const char* description) {
 
 int main(int, char**) {
     // Set MIDI 
-    stk::Stk::setRawwavePath("../stk/rawwaves/");
+    stk::Stk::setRawwavePath("/home/admin/Portable-Digital-Audio-Workstation-PoDAW-/stk/rawwaves/");
 
     // All instruments
     std::shared_ptr<Piano> piano = std::make_shared<Piano>("PNO");
