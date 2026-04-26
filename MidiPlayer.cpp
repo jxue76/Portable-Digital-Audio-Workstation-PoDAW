@@ -52,6 +52,7 @@ void MidiPlayer::playbackThreadFunc(MidiRecording recording, bool loop = false, 
                 std::this_thread::sleep_until(target);
 
                 if (ev.isOn() && !playing) {
+                    std::cout << recording.getInstrument().get()->getName() << std::endl;
                     audio.addNoteToInstrument(recording.getInstrument(), ev.getNote());
                 } else if (!playing) {
                     audio.removeNoteFromInstrument(recording.getInstrument(), ev.getNote());

@@ -327,11 +327,12 @@ int main(int, char**) {
                 if (isMoving) {
                     recordings[sequencer.currentTrack-1] = recorder.stop();
                     MidiUtils::fillGaps(recordings[sequencer.currentTrack-1]);
-                    audioHandler.removeAllNotes();
                     midiPlayerPiano.stop();
                     midiPlayerGuitar.stop();
                     midiPlayerDrums.stop();
                     midiPlayerBass.stop();
+                    audioHandler.removeAllNotes();
+                    individualUI.drawNotes(recordings[sequencer.currentTrack-1], sequencer);
                     isMoving = false;
                 } else {
                     if (sequencer.currentTrack != 1) midiPlayerPiano.play(recordings[0],false, 0.0);
