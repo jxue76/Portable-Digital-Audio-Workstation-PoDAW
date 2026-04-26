@@ -8,7 +8,7 @@
 class IndividualTrackUI {
     public:
         void render(Sequencer& seq, Inputs& inputs, float dt,
-                    MidiRecording& recordedNotes,
+                    std::vector<MidiRecording>& recordedNotes,
                     double& cursorPosition);
         float returnPPB() {return ppb;}
         void drawNotes(MidiRecording& recordedNotes, Sequencer& seq);
@@ -65,7 +65,7 @@ class IndividualTrackUI {
 
         KeyRepeat upKey, downKey, leftKey, rightKey, fastKey;
         bool fastMovement = false;
-        void handleInputs(Sequencer& seq, Inputs& inputs, float dt, MidiRecording& recordedNotes);
+        void handleInputs(Sequencer& seq, Inputs& inputs, float dt, std::vector<MidiRecording>& recordedNotes);
 };
 
 #endif

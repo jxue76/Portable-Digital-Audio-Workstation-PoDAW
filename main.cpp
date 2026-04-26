@@ -352,51 +352,48 @@ int main(int, char**) {
         }  
 
         // Recording loop
-        if (!isPlayback && isMoving) {
-            if (midiHandler.hasMessages()) {
-                MidiMessage msg = midiHandler.popMessage();
-                //std::cout << "Received MIDI message: Note " << msg.getNote().getMidiNote() 
-                //        << (msg.isOn() ? " ON" : " OFF") << std::endl;
-                if (msg.isOn()) {
-                    switch (sequencer.currentTrack) {
-                        case 1:
-                            audioHandler.addNoteToInstrument(piano, msg.getNote());
-                            break;
-                        case 2:
-                            audioHandler.addNoteToInstrument(guitar, msg.getNote());
-                            break;
-                        case 3:
-                            audioHandler.addNoteToInstrument(drums, msg.getNote());
-                            break;
-                        case 4:
-                            audioHandler.addNoteToInstrument(bass, msg.getNote());
-                            break;
-                        default:
-                            audioHandler.addNoteToInstrument(piano, msg.getNote());
-                    }
-                } else {
-                    switch (sequencer.currentTrack) {
-                        case 1:
-                            audioHandler.removeNoteFromInstrument(piano, msg.getNote());
-                            break;
-                        case 2:
-                            audioHandler.removeNoteFromInstrument(guitar, msg.getNote());
-                            break;
-                        case 3:
-                            audioHandler.removeNoteFromInstrument(drums, msg.getNote());
-                            break;
-                        case 4:
-                            audioHandler.removeNoteFromInstrument(bass, msg.getNote());
-                            break;
-                        default:
-                            audioHandler.removeNoteFromInstrument(piano, msg.getNote());
-                    }
+        if (midiHandler.hasMessages()) {
+            MidiMessage msg = midiHandler.popMessage();
+            //std::cout << "Received MIDI message: Note " << msg.getNote().getMidiNote() 
+            //        << (msg.isOn() ? " ON" : " OFF") << std::endl;
+            if (msg.isOn()) {
+                switch (sequencer.currentTrack) {
+                    case 1:
+                        audioHandler.addNoteToInstrument(piano, msg.getNote());
+                        break;
+                    case 2:
+                        audioHandler.addNoteToInstrument(guitar, msg.getNote());
+                        break;
+                    case 3:
+                        audioHandler.addNoteToInstrument(drums, msg.getNote());
+                        break;
+                    case 4:
+                        audioHandler.addNoteToInstrument(bass, msg.getNote());
+                        break;
+                    default:
+                        audioHandler.addNoteToInstrument(piano, msg.getNote());
                 }
-                recorder.process(msg);
-                //input_lock = true;
-                //input_delay = std::chrono::high_resolution_clock::now();
+            } else {
+                switch (sequencer.currentTrack) {
+                    case 1:
+                        audioHandler.removeNoteFromInstrument(piano, msg.getNote());
+                        break;
+                    case 2:
+                        audioHandler.removeNoteFromInstrument(guitar, msg.getNote());
+                        break;
+                    case 3:
+                        audioHandler.removeNoteFromInstrument(drums, msg.getNote());
+                        break;
+                    case 4:
+                        audioHandler.removeNoteFromInstrument(bass, msg.getNote());
+                        break;
+                    default:
+                        audioHandler.removeNoteFromInstrument(piano, msg.getNote());
+                }
             }
-            //std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            if (!isPlayback && isMoving) recorder.process(msg);
+            //input_lock = true;
+            //input_delay = std::chrono::high_resolution_clock::now();
         }
 
         if (isPlayback &&
