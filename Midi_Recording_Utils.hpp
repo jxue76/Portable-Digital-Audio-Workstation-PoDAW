@@ -42,7 +42,6 @@ namespace MidiUtils {
         std::vector<TimedMidiMessage>& events = recording.getEvents();
         for (const auto& event : events) {
             int midiNote = event.getNote().getMidiNote();
-            std::cout << "Event is: " << event.isOn() << std::endl;
             if (notegaps[midiNote] == NoteGap::None) {
                 if (event.isOn()) {
                     notegaps[midiNote] = NoteGap::MissingNoteOff;
@@ -62,6 +61,8 @@ namespace MidiUtils {
                     notegaps[midiNote] = NoteGap::MissingNoteOn;
                 }
             }
+            std::cout << "Note: " << midiNote << std::endl;
+            std::cout << "Event is: " << (notegaps[midiNote] == NoteGap::MissingNoteOff) << std::endl;
         }
         for (int i = 0; i < 255; ++i) {
             if (notegaps[i] == NoteGap::MissingNoteOff) {
