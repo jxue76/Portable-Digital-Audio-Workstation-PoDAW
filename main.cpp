@@ -355,8 +355,8 @@ int main(int, char**) {
         if (!isPlayback && isMoving) {
             if (midiHandler.hasMessages()) {
                 MidiMessage msg = midiHandler.popMessage();
-                std::cout << "Received MIDI message: Note " << msg.getNote().getMidiNote() 
-                        << (msg.isOn() ? " ON" : " OFF") << std::endl;
+                //std::cout << "Received MIDI message: Note " << msg.getNote().getMidiNote() 
+                //        << (msg.isOn() ? " ON" : " OFF") << std::endl;
                 if (msg.isOn()) {
                     switch (sequencer.currentTrack) {
                         case 1:

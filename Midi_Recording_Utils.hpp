@@ -36,11 +36,13 @@ namespace MidiUtils {
 
     // In-place filling of gaps with missing note-on and note-off events filled in to ensure all notes are properly terminated
     void fillGaps(MidiRecording& recording) {
+        std::cout << "Start filling gaps" << std::endl;
         sortRecording(recording);
         NoteGap notegaps[255] = {NoteGap::None};
         std::vector<TimedMidiMessage>& events = recording.getEvents();
         for (const auto& event : events) {
             int midiNote = event.getNote().getMidiNote();
+            std::cout << "Event is: " << event.isOn() << std::endl;
             if (notegaps[midiNote] == NoteGap::None) {
                 if (event.isOn()) {
                     notegaps[midiNote] = NoteGap::MissingNoteOff;
