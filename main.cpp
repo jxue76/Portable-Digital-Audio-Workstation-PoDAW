@@ -108,7 +108,7 @@ int main(int, char**) {
 
     recorder.setInstrument(guitar);
 
-    std::vector<TestMidiHandler::ScheduledMidiMessage> schedule = {
+    schedule = {
         { std::chrono::milliseconds(1000), MidiMessage(Note(50, 1.0f), true) },
         { std::chrono::milliseconds(3000), MidiMessage(Note(50, 1.0f), false) },
         { std::chrono::milliseconds(5000), MidiMessage(Note(54, 1.0f), true) },
@@ -117,7 +117,7 @@ int main(int, char**) {
         { std::chrono::milliseconds(11000), MidiMessage(Note(57, 1.0f), false) }
     };
 
-    TestMidiHandler testMidi(schedule);
+    testMidi(schedule);
     recorder.start();
 
     while (recorder.getElapsedTime() < std::chrono::seconds(12)) {
@@ -326,7 +326,7 @@ int main(int, char**) {
                 //recordToggle(recorder, recordings[sequencer.currentTrack-1],timestamp_position, individualUI, sequencer, isMoving);
                 if (isMoving) {
                     recordings[sequencer.currentTrack-1] = recorder.stop();
-                    Midi_Recording_Utils::fillGaps(recordings[sequencer.currentTrack-1]);
+                    MidiUtils::fillGaps(recordings[sequencer.currentTrack-1]);
                     audioHandler.removeAllNotes();
                     midiPlayerPiano.stop();
                     midiPlayerGuitar.stop();
