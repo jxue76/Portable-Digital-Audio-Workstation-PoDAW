@@ -82,7 +82,7 @@ endif()
 # 3. Create Executables
 add_executable(PoDAW_Test main.cpp ${IMGUI_SOURCES} ${PODAW_SOURCES} ${MIDI_CODE_SOURCES})
 
-#add_executable(STK_Test stk_test.cpp ${AUDIO_CODE_SOURCES})
+add_executable(STK_Test stk_test.cpp ${AUDIO_CODE_SOURCES})
 
 #add_executable(Audio_Live_Test audio_pipeline_test.cpp ${MIDI_CODE_SOURCES})
 
@@ -101,7 +101,7 @@ target_include_directories(PoDAW_Test PRIVATE
     #${MIDI_CODE_SOURCES}
 )
 
-#target_include_directories(STK_Test PRIVATE ${STK_INCLUDE_DIRS})
+target_include_directories(STK_Test PRIVATE ${STK_INCLUDE_DIRS})
 
 #target_include_directories(Audio_Live_Test PRIVATE ${STK_INCLUDE_DIRS})
 
@@ -115,7 +115,7 @@ target_link_libraries(PoDAW_Test PRIVATE ${GPIOD_LIBRARIES})
 target_link_libraries(PoDAW_Test PRIVATE glfw OpenGL::GL OpenGL::EGL OpenGL::GLX OpenGL::GLES2 ${X11_LIBRARIES})
 target_link_libraries(PoDAW_Test PRIVATE stk)
 
-#target_link_libraries(STK_Test PRIVATE stk)
+target_link_libraries(STK_Test PRIVATE stk)
 
 #target_link_libraries(Audio_Live_Test PRIVATE stk)
 

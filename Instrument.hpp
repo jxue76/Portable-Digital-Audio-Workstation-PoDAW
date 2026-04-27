@@ -35,8 +35,8 @@ public:
         volume = newVolume;
     }
 
-    void noteOn(const Note& note);
-    void noteOff(const Note& note);
+    virtual void noteOn(const Note& note);
+    virtual void noteOff(const Note& note);
     stk::StkFloat tick();
 
     static int mapBetween(int x, int a, int b) {
